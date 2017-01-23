@@ -9,7 +9,7 @@ export default class Footercenter extends React.Component {
                 <div className="col1">
                     <div>
                         <div className="">
-                            <img src="log2.jpg"></img>
+                            <span id="log">{this.props.data.log}</span>
                         </div>
                         <div className="text3">
                             Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here content here.

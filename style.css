@@ -314,10 +314,19 @@ body{
     background-color: #272c33;
     list-style-type: none;
     margin: 0;
-    padding: 0 30px;
+    padding: 0;
     overflow: hidden;
 }
-.accordion > div > li {
+.panelAcc > li {
+    border: solid 1px #424b57;
+    padding-left: 30px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.panelAcc > li:hover{
+    border: solid 1px white;
+}
+.accordinDiv > li {
     cursor: pointer;
     list-style-type: none;
     padding-left: 20px;
@@ -325,10 +334,10 @@ body{
     padding-top: 10px;
     margin: 0;
 }
-.accordion > div{
+.accordinDiv {
     border: solid 1px #424b57;
 }
-.accordion > div:hover{
+.accordinDiv:hover{
     border: solid 1px white;
 }
 .accordion-li {

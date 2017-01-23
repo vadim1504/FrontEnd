@@ -2,16 +2,15 @@ import React from "react"
 
 export default class Menu extends React.Component {
 
-    constructor(props){
+    constructor(){
         super();
         this.state = {
-            categories: props.categories
+            categories: []
         }
     }
 
     clicked(index) {
-        let f = this.state.categories;
-
+        let f = this.props.categories;
         if(f[index].focused==0){
             f[index].focused=1;
             this.props.onHandle(index);
@@ -37,18 +36,21 @@ export default class Menu extends React.Component {
                 <div className="menu-content">
                     <ul className="accordion">
                         {
-                        self.state.categories.map(function (item,index) {
+                        self.props.categories.map(function (item,index) {
                                 return(
                                     <div>
-                                        <li onClick={self.clicked.bind(self,index)}>
-                                            <a className="accordion-li">
-                                                {item.name}
+                                        <div className="accordinDiv">
+                                            <li onClick={self.clicked.bind(self,index)}>
+                                                <a className="accordion-li">
+                                                    {item.name}
                                                 {  item.focused == 0 ?
                                                     <span className="fa fa-plus"></span>
                                                     :  <span className="fa fa-minus"></span>
                                                 }
-                                            </a>
-                                        </li>
+                                                </a>
+                                            </li>
+                                        </div>
+                                        <div>
                                         {
                                             item.focused == 0 ? ''
                                                 :
@@ -60,6 +62,7 @@ export default class Menu extends React.Component {
                                                         })}
                                                 </ul>
                                         }
+                                        </div>
                                     </div>
                                 )
                         })

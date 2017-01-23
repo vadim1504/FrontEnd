@@ -46,7 +46,8 @@ export default class Page extends React.Component {
                 price: "Price",
                 catalog: "Filters",
                 size: "Size",
-                color: "Color"
+                color: "Color",
+                filtr: "Filter"
             },
             money: 0
         };
@@ -84,7 +85,8 @@ export default class Page extends React.Component {
                     price: "Price",
                     catalog: "Filters",
                     size: "Size",
-                    color: "Color"
+                    color: "Color",
+                    filtr: "Filter"
                 }
             });
         }else if(i==1) {
@@ -118,7 +120,8 @@ export default class Page extends React.Component {
                     price: "Цена",
                     catalog: "Фильтры",
                     size: "Размер",
-                    color: "Цвет"
+                    color: "Цвет",
+                    filtr: "Фильтр"
                 }
             });
         }
@@ -145,14 +148,11 @@ export default class Page extends React.Component {
         xhr.send();
         xhr.onreadystatechange = function () {
             if (this.readyState != 4) return;
-            if (this.status != 200) {
-                console.log('Ошибка ' + xhr.status + ': ' + xhr.statusText);
-                return;
-            }
+            if (this.status != 200) return;
             let c = self.state.categories;
             c[index].li= self.parseResponse(JSON.parse(xhr.responseText),index,self.state.data.lang);
             self.setState({
-                categoties: c
+                categories: c
             });
         };
     }
@@ -206,7 +206,7 @@ export default class Page extends React.Component {
                 </Categories>
             </Main>
             <Footertop/>
-            <Footercenter/>
+            <Footercenter data={this.state.data}/>
             <div className="footer-bot">
                 Vadim Shestov 2016
             </div>

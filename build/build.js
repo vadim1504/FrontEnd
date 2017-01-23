@@ -21642,7 +21642,8 @@
 	                price: "Price",
 	                catalog: "Filters",
 	                size: "Size",
-	                color: "Color"
+	                color: "Color",
+	                filtr: "Filter"
 	            },
 	            money: 0
 	        };
@@ -21680,7 +21681,8 @@
 	                        price: "Price",
 	                        catalog: "Filters",
 	                        size: "Size",
-	                        color: "Color"
+	                        color: "Color",
+	                        filtr: "Filter"
 	                    }
 	                });
 	            } else if (i == 1) {
@@ -21711,7 +21713,8 @@
 	                        price: "Цена",
 	                        catalog: "Фильтры",
 	                        size: "Размер",
-	                        color: "Цвет"
+	                        color: "Цвет",
+	                        filtr: "Фильтр"
 	                    }
 	                });
 	            }
@@ -21740,14 +21743,11 @@
 	            xhr.send();
 	            xhr.onreadystatechange = function () {
 	                if (this.readyState != 4) return;
-	                if (this.status != 200) {
-	                    console.log('Ошибка ' + xhr.status + ': ' + xhr.statusText);
-	                    return;
-	                }
+	                if (this.status != 200) return;
 	                var c = self.state.categories;
 	                c[index].li = self.parseResponse(JSON.parse(xhr.responseText), index, self.state.data.lang);
 	                self.setState({
-	                    categoties: c
+	                    categories: c
 	                });
 	            };
 	        }
@@ -21808,7 +21808,7 @@
 	                    )
 	                ),
 	                _react2.default.createElement(_FooterTop2.default, null),
-	                _react2.default.createElement(_FooterCenter2.default, null),
+	                _react2.default.createElement(_FooterCenter2.default, { data: this.state.data }),
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "footer-bot" },
@@ -22464,13 +22464,13 @@
 	var Menu = function (_React$Component) {
 	    _inherits(Menu, _React$Component);
 
-	    function Menu(props) {
+	    function Menu() {
 	        _classCallCheck(this, Menu);
 
 	        var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this));
 
 	        _this.state = {
-	            categories: props.categories
+	            categories: []
 	        };
 	        return _this;
 	    }
@@ -22478,8 +22478,7 @@
 	    _createClass(Menu, [{
 	        key: "clicked",
 	        value: function clicked(index) {
-	            var f = this.state.categories;
-
+	            var f = this.props.categories;
 	            if (f[index].focused == 0) {
 	                f[index].focused = 1;
 	                this.props.onHandle(index);
@@ -22520,32 +22519,40 @@
 	                        _react2.default.createElement(
 	                            "ul",
 	                            { className: "accordion" },
-	                            self.state.categories.map(function (item, index) {
+	                            self.props.categories.map(function (item, index) {
 	                                return _react2.default.createElement(
 	                                    "div",
 	                                    null,
 	                                    _react2.default.createElement(
-	                                        "li",
-	                                        { onClick: self.clicked.bind(self, index) },
+	                                        "div",
+	                                        { className: "accordinDiv" },
 	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "accordion-li" },
-	                                            item.name,
-	                                            item.focused == 0 ? _react2.default.createElement("span", { className: "fa fa-plus" }) : _react2.default.createElement("span", { className: "fa fa-minus" })
+	                                            "li",
+	                                            { onClick: self.clicked.bind(self, index) },
+	                                            _react2.default.createElement(
+	                                                "a",
+	                                                { className: "accordion-li" },
+	                                                item.name,
+	                                                item.focused == 0 ? _react2.default.createElement("span", { className: "fa fa-plus" }) : _react2.default.createElement("span", { className: "fa fa-minus" })
+	                                            )
 	                                        )
 	                                    ),
-	                                    item.focused == 0 ? '' : _react2.default.createElement(
-	                                        "ul",
-	                                        { className: "panelAcc" },
-	                                        item.li.map(function (item, index) {
-	                                            return _react2.default.createElement(
-	                                                "li",
-	                                                null,
-	                                                " ",
-	                                                item,
-	                                                " "
-	                                            );
-	                                        })
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        null,
+	                                        item.focused == 0 ? '' : _react2.default.createElement(
+	                                            "ul",
+	                                            { className: "panelAcc" },
+	                                            item.li.map(function (item, index) {
+	                                                return _react2.default.createElement(
+	                                                    "li",
+	                                                    null,
+	                                                    " ",
+	                                                    item,
+	                                                    " "
+	                                                );
+	                                            })
+	                                        )
 	                                    )
 	                                );
 	                            })
@@ -22769,7 +22776,11 @@
 	                            _react2.default.createElement(
 	                                "div",
 	                                { className: "" },
-	                                _react2.default.createElement("img", { src: "log2.jpg" })
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { id: "log" },
+	                                    this.props.data.log
+	                                )
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -23314,12 +23325,13 @@
 	                            this.props.data.price
 	                        )
 	                    ),
+	                    _react2.default.createElement("div", { id: "sliderPrice" }),
 	                    _react2.default.createElement(
 	                        "div",
 	                        null,
 	                        _react2.default.createElement("input", { id: "minPrice", className: "min", type: "text", placeholder: "min" }),
 	                        _react2.default.createElement("input", { id: "maxPrice", className: "max", type: "text", placeholder: "max" }),
-	                        _react2.default.createElement("input", { className: "filter", type: "button", value: "Filter", onClick: this.filterPrice.bind(this) })
+	                        _react2.default.createElement("input", { className: "filter", type: "button", value: this.props.data.filtr, onClick: this.filterPrice.bind(this) })
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
@@ -23330,12 +23342,13 @@
 	                            this.props.data.size
 	                        )
 	                    ),
+	                    _react2.default.createElement("div", { id: "sliderSize" }),
 	                    _react2.default.createElement(
 	                        "div",
 	                        null,
 	                        _react2.default.createElement("input", { id: "minSize", className: "min", type: "text", placeholder: "min" }),
 	                        _react2.default.createElement("input", { id: "maxSize", className: "max", type: "text", placeholder: "max" }),
-	                        _react2.default.createElement("input", { className: "filter", type: "button", value: "Filter", onClick: this.filterSize.bind(this) })
+	                        _react2.default.createElement("input", { className: "filter", type: "button", value: this.props.data.filtr, onClick: this.filterSize.bind(this) })
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",

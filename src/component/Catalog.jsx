@@ -1,6 +1,5 @@
 import React from "react"
 
-
 export default class Catalog extends React.Component {
 
     constructor(){
@@ -48,18 +47,23 @@ export default class Catalog extends React.Component {
                         <label>{this.props.data.price}</label>
                     </div>
 
+                    <div id="sliderPrice"></div>
+
                     <div>
                         <input id="minPrice" className="min" type="text" placeholder="min"/>
                             <input id="maxPrice" className="max" type="text" placeholder="max"/>
-                                <input className="filter" type="button" value="Filter" onClick={this.filterPrice.bind(this)}/>
+                                <input className="filter" type="button" value={this.props.data.filtr} onClick={this.filterPrice.bind(this)}/>
                     </div>
                     <div>
                         <label>{this.props.data.size}</label>
                     </div>
+
+                    <div id="sliderSize"></div>
+
                     <div>
                         <input id="minSize" className="min" type="text" placeholder="min"/>
                         <input id="maxSize" className="max" type="text" placeholder="max"/>
-                        <input className="filter" type="button" value="Filter" onClick={this.filterSize.bind(this)}/>
+                        <input className="filter" type="button" value={this.props.data.filtr} onClick={this.filterSize.bind(this)}/>
                     </div>
                     <div>
                         <label>{this.props.data.color}</label>
@@ -80,7 +84,7 @@ export default class Catalog extends React.Component {
                     </div>
                 </form>
             </section>
-        )
+        );
     }
 }
 
