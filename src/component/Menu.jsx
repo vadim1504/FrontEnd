@@ -2,14 +2,14 @@ import React from "react"
 
 export default class Menu extends React.Component {
 
-    constructor(){
+    constructor(props){
         super();
         this.state = {
-            categories: []
+            categories: props.categories
         }
     }
 
-    clicked(index) {
+    clickedUl(index) {
         let f = this.props.categories;
         if(f[index].focused==0){
             f[index].focused=1;
@@ -22,6 +22,9 @@ export default class Menu extends React.Component {
         });
     }
 
+    clickedLi(index,id) {
+        this.props.onHandle2(index,id);
+    }
 
     render(){
         let self = this;
@@ -37,10 +40,11 @@ export default class Menu extends React.Component {
                     <ul className="accordion">
                         {
                         self.props.categories.map(function (item,index) {
+                            let i = item;
                                 return(
                                     <div>
                                         <div className="accordinDiv">
-                                            <li onClick={self.clicked.bind(self,index)}>
+                                            <li onClick={self.clickedUl.bind(self,index)}>
                                                 <a className="accordion-li">
                                                     {item.name}
                                                 {  item.focused == 0 ?
@@ -56,10 +60,23 @@ export default class Menu extends React.Component {
                                                 :
                                                 <ul className="panelAcc">
                                                     {
-                                                        item.li.map(function (item, index) {
-                                                            return ( <li> {item} </li>
+                                                        item.li.map(function (item) {
+                                                            return ( <li onClick={self.clickedLi.bind(self,index,item.id)}>
+                                                                    {self.props.lang=="English" ?
+                                                                        i.name=="Men's collection" ? item.collectionNameEu :
+                                                                            i.name=="Brand" ? item.name :
+                                                                                i.name=="Material" ? item.nameEu : "" :
+                                                                        i.name=="Мужская коллекция" ? item.collectionNameRu :
+                                                                            i.name=="Бренд" ? item.name :
+                                                                                i.name=="Материал" ? item.nameRu : ""
+                                                                    }
+
+
+                                                                    {item.amount==undefined ? '' : (' ('+item.amount+')')}
+                                                                    </li>
                                                             )
-                                                        })}
+                                                        })
+                                                    }
                                                 </ul>
                                         }
                                         </div>

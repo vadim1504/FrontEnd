@@ -37,6 +37,10 @@ export default class Topheader extends React.Component{
         }
     }
 
+    profile(){
+        this.props.profile();
+    }
+
     render(){
         let money;
         if(this.state.money==0){
@@ -71,12 +75,14 @@ export default class Topheader extends React.Component{
                                 <span> {money}</span>
                             </a>
                         </li>
-                        <li className="li">
-                            <a className="ap">
-                                <i className="fa fa-gear"></i>
-                                <span> {data.account}</span>
-                            </a>
-                        </li>
+                            <li className="li" onClick={this.profile.bind(this)}>
+                                <a className="ap">
+                                    <i className="fa fa-gear"></i>
+                                    {
+                                        this.props.user!='' ?  <span> { this.props.user}</span> : <span>{data.account}</span>
+                                    }
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>

@@ -2,10 +2,10 @@ import React from "react"
 
 export default class Botheader extends React.Component {
 
-    constructor(){
+    constructor(props){
         super();
         this.state = {
-            focused: 0
+            focused: props.focus
         }
     }
 
@@ -24,14 +24,14 @@ export default class Botheader extends React.Component {
                             {
                                 self.props.items.map(function (item,index) {
                                 let style="";
-                                if(self.state.focused==index){
+                                if(self.props.focus==index){
                                     style = "activ";
                                 }
                                     return(
                                         <li className={style} onClick={self.clicked.bind(self,index)}>
                                             <a>
-                                                { item=='Home' ? <i className="fa fa-home"></i> : ''}
-                                                {item}
+                                                { item.name=='Home' ? <i className="fa fa-home"></i> : ''}
+                                                {item.name}
                                                 </a>
                                         </li>
                                     )

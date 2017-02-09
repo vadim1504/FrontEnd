@@ -4,6 +4,9 @@ import React from "react"
 export default class Footercenter extends React.Component {
 
     render(){
+        let category = [this.props.data.women,this.props.data.menSale,this.props.data.jewellery,this.props.data.accessories,this.props.data.sunglass,this.props.data.sitemap];
+        let information = [this.props.data.aboutUs,this.props.data.deliveryInformation,this.props.data.privacyPolicy,this.props.data.termsConditions,this.props.data.help,this.props.data.location];
+        let account = [this.props.data.account, this.props.data.orderHistory,this.props.data.WishList,this.props.data.newsletter,this.props.data.cart2,this.props.data.checkOut];
         return <div className="footer-center">
             <div className="content2">
                 <div className="col1">
@@ -41,142 +44,64 @@ export default class Footercenter extends React.Component {
                 </div>
                 <div className="col2">
                     <div>
-                        <h3 className="h3">Category</h3>
+                        <h3 className="h3">{this.props.data.category}</h3>
                         <div className="informations">
                             <ul>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Women</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Men Sale</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Jewellery</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Accessories</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Sunglass</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Site map</span>
-                                    </a>
-                                </li>
+                                {
+                                    category.map(function (item) {
+                                        return <li>
+                                        <a className="inform">
+                                            <i className="fa fa-angle-double-right"></i>
+                                            <span>{item}</span>
+                                            </a>
+                                            </li>
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="col3">
                     <div>
-                        <h3 className="h3">Information</h3>
+                        <h3 className="h3">{this.props.data.information}</h3>
                         <div className="informations">
                             <ul>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>About Us</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Delivery Information</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Privacy Policy</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Terms & Conditions</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Help</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Location</span>
-                                    </a>
-                                </li>
+                                {
+                                    information.map(function (item) {
+                                        return <li>
+                                            <a className="inform">
+                                                <i className="fa fa-angle-double-right"></i>
+                                                <span>{item}</span>
+                                            </a>
+                                        </li>
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="col4">
                     <div>
-                        <h3 className="h3">My Account</h3>
+                        <h3 className="h3">{this.props.data.account}</h3>
                         <div className="informations">
                             <ul>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>My Account</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Order History</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Wish List</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Newsletter</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>Cart</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="inform">
-                                        <i className="fa fa-angle-double-right"></i>
-                                        <span>CheckOut</span>
-                                    </a>
-                                </li>
+                                {
+                                    account.map(function (item) {
+                                        return <li>
+                                            <a className="inform">
+                                                <i className="fa fa-angle-double-right"></i>
+                                                <span>{item}</span>
+                                            </a>
+                                        </li>
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="col5">
                     <div>
-                        <h3 className="h3">Contact Us</h3>
+                        <h3 className="h3">{this.props.data.contactUS}</h3>
                         <div className="informations">
                             <ul>
                                 <li>

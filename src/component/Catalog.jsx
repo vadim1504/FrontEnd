@@ -9,7 +9,7 @@ export default class Catalog extends React.Component {
             maxPrice: 0,
             minSize:0,
             maxSize: 0,
-            color: ""
+            color: ''
         }
     }
 
@@ -30,10 +30,8 @@ export default class Catalog extends React.Component {
     }
 
     filterColor(i){
-        let color = ["Красный", "Оранжевый", "Жёлтый", "Жёлто-зелёный(шартрёз)", "Зелёный", "Изумрудный",
-            "Голубой", "Лазурный", "Синий", "Фиолетовый", "Пурпурный", "Малиновый",];
-        this.state.color=color[i];
-        this.props.filterColor(color[i]);
+        this.state.color=i;
+        this.props.filterColor(i);
     }
 
     render() {
@@ -69,18 +67,18 @@ export default class Catalog extends React.Component {
                         <label>{this.props.data.color}</label>
                     </div>
                     <div className="color">
-                        <input style={{backgroundColor: '#FF0000'}} type="button" onClick={this.filterColor.bind(this,0)}/>
-                            <input style={{backgroundColor: '#FF8000'}} type="button" onClick={this.filterColor.bind(this,1)}/>
-                                <input style={{backgroundColor: '#FFFF00'}} type="button" onClick={this.filterColor.bind(this,2)}/>
-                                    <input style={{backgroundColor: '#80FF00'}} type="button" onClick={this.filterColor.bind(this,3)}/>
-                                        <input style={{backgroundColor: '#00FF00'}} type="button" onClick={this.filterColor.bind(this,4)}/>
-                                            <input style={{backgroundColor: '#00FF80'}} type="button" onClick={this.filterColor.bind(this,5)}/>
-                                                <input style={{backgroundColor: '#00FFFF'}} type="button" onClick={this.filterColor.bind(this,6)}/>
-                                                    <input style={{backgroundColor: '#0080FF'}} type="button" onClick={this.filterColor.bind(this,7)}/>
-                                                        <input style={{backgroundColor: '#0000FF'}} type="button" onClick={this.filterColor.bind(this,8)}/>
-                                                            <input style={{backgroundColor: '#8000FF'}} type="button" onClick={this.filterColor.bind(this,9)}/>
-                                                                <input style={{backgroundColor: '#FF00FF'}} type="button" onClick={this.filterColor.bind(this,10)}/>
-                                                                    <input style={{backgroundColor: '#FF0080'}} type="button" onClick={this.filterColor.bind(this,11)}/>
+                        <input style={{backgroundColor: '#FF0000'}} type="button" onClick={this.filterColor.bind(this,1)}/>
+                            <input style={{backgroundColor: '#FF8000'}} type="button" onClick={this.filterColor.bind(this,2)}/>
+                                <input style={{backgroundColor: '#FFFF00'}} type="button" onClick={this.filterColor.bind(this,3)}/>
+                                    <input style={{backgroundColor: '#80FF00'}} type="button" onClick={this.filterColor.bind(this,4)}/>
+                                        <input style={{backgroundColor: '#00FF00'}} type="button" onClick={this.filterColor.bind(this,5)}/>
+                                            <input style={{backgroundColor: '#00FF80'}} type="button" onClick={this.filterColor.bind(this,6)}/>
+                                                <input style={{backgroundColor: '#00FFFF'}} type="button" onClick={this.filterColor.bind(this,7)}/>
+                                                    <input style={{backgroundColor: '#0080FF'}} type="button" onClick={this.filterColor.bind(this,8)}/>
+                                                        <input style={{backgroundColor: '#0000FF'}} type="button" onClick={this.filterColor.bind(this,9)}/>
+                                                            <input style={{backgroundColor: '#8000FF'}} type="button" onClick={this.filterColor.bind(this,10)}/>
+                                                                <input style={{backgroundColor: '#FF00FF'}} type="button" onClick={this.filterColor.bind(this,11)}/>
+                                                                    <input style={{backgroundColor: '#FF0080'}} type="button" onClick={this.filterColor.bind(this,12)}/>
                     </div>
                 </form>
             </section>

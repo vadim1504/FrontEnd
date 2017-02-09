@@ -3,6 +3,13 @@ import Search from "./Search"
 
 export default class Centerheader extends React.Component {
 
+    click(){
+        this.props.user.login=='' ?
+            this.props.profileVisibl() :
+        this.props.cartVisibl();
+
+    }
+
     render() {
         return <div className="center-header">
             <div>
@@ -15,9 +22,9 @@ export default class Centerheader extends React.Component {
                     <Search search={this.props.search}/>
                 </div>
                 <div className="center-header-r">
-                    <button className="but-shop" type="button">
+                    <button className="but-shop" type="button" onClick={this.click.bind(this)}>
                         <span className="fa fa-shopping-bag circle"></span>
-                        <span className="text">{this.props.cart}</span>
+                        <span className="text">{this.props.cart} ({this.props.k})</span>
                     </button>
                 </div>
             </div>

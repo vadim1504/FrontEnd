@@ -211,7 +211,6 @@ body{
 .navigation{
     margin: 0 auto;
     text-align: left;
-    position: relative;
 }
 .navigation > ul {
     height: 55px;
@@ -223,7 +222,6 @@ body{
 .navigation > ul > li{
     cursor: pointer;
     display: inline-block;
-    position: relative;
 }
 .navigation > ul > li:hover{
     transition: background 0.5s ease , color 1s ease 0s;;
@@ -244,7 +242,6 @@ body{
     background-color: #009bc8;
     color: white;
     display: inline-block;
-    position: relative;
 }
 .activ > a{
     text-decoration: none;
@@ -374,7 +371,7 @@ body{
     margin-top: 4px;
 }
 .catalog-header:before{
-    background-color: #016d83;
+    background-color: #009bc8;
     content: "";
     height: 25px;
     left: 0;
@@ -487,7 +484,7 @@ body{
     margin-top: 50px;
     font-size: 14px;
     width: 100%;
-    background-color: #016579;
+    background-color: #006587;
     padding-bottom: 20px;
     padding-top: 25px;
     display: inline-block;
@@ -550,7 +547,7 @@ body{
     background-color: white;
     border: 1px solid white;
     border-radius: 3px;
-    color: #016579;
+    color: #006587;
 }
 .lines{
     height: 40px;
@@ -579,11 +576,14 @@ body{
     text-align: center;
 }
 .payment > a {
-    background-color: #016579;
+    background-color: #006587;
     color: white;
 }
 .payment + .payment {
     margin-right: 1%;
+}
+.footer{
+    font-size: 0;
 }
 .footer-center{
     font-size: 14px;
@@ -646,14 +646,14 @@ body{
 .social{
     cursor: pointer;
     border: 1px solid #5a5956;
-    width: 44px;
+    width: 10%;
     float: left;
     height: 40px;
     text-align: center;
 }
 .social:hover{
     border: 1px solid white;
-    background-color: #016579;
+    background-color: #006587;
     transition: all 0.7s ease 0s;
 }
 .social > a {
@@ -667,7 +667,7 @@ body{
     margin-top: 10px;
 }
 .social + .social {
-    margin-left: 20px;
+    margin-left: 17%;
 }
 .h3{
     font-family: Raleway;
@@ -719,27 +719,16 @@ body{
     color: #999;
 }
 .goods {
-
     width: 72%;
     float: left;
     margin-left: 3%;
 }
-.baner{
-    height: 240px;
+.baner {
+    height: 100%;
     width: 100%;
-    background: url("resource/baner.jpg") top;
-    background-size: 100%;
-}
-.baner2{
-    margin-top: 20px;
-    width: 100%;
-    height: 330px;
-    background: url("resource/sale.jpg") top;
-    background-size: 100%;
 }
 .panel{
     height: 29px;
-    margin-top: 25px;
     width: 100%;
     display: inline-block;
 }
@@ -787,6 +776,7 @@ body{
 }
 .pager{
     float: right;
+    margin-right: 2%;
 }
 .pager > ul {
     margin-top: 6px;
@@ -794,8 +784,9 @@ body{
 .pager > ul > li {
     float: left;
     list-style: none;
+    cursor: pointer;
 }
-.pager > ul > li > a{
+.number{
     text-decoration: none;
     border: 1px solid #23282f;
     color: #23282f;
@@ -808,7 +799,7 @@ body{
     width: 30px;
     font-weight: 700;
 }
-.pager > ul > li > a:hover{
+.number:hover{
     text-decoration: none;
     border: 1px solid #009bc8;
     color: white;
@@ -822,7 +813,19 @@ body{
     font-weight: 700;
     background-color: #009bc8;
 }
-
+.focus{
+    text-decoration: none;
+    border: 1px solid #009bc8;
+    color: white;
+    border-radius: 0;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 5px 10px;
+    width: 30px;
+    font-weight: 700;
+    background-color: #009bc8;
+}
 .lr{
     border: 1px solid #23282f;
     background-color: #23282f;
@@ -847,9 +850,12 @@ body{
 
 
 .slot{
+    cursor: pointer;
     float: left;
-    width: 31.7%;
+    width: 31%;
     border: 1px solid #e8e8e8;
+    margin-right: 2%;
+    margin-bottom: 25px;
 }
 
 .slot2{
@@ -859,21 +865,24 @@ body{
     font-size: 0;
 }
 
-.slot + .slot {
-    margin-left: 2%;
-}
+
 .slot-img > img{
     width: 100%;
 }
 .slot-text{
-    font-size: 14px;
+    font-size: 10px;
     text-align: center;
-    background-color: #016579;
+    background-color:  #009bc8;
     font-weight: 600;
-    padding: 7px;
+    padding: 2px;
 }
 .slot-text > div {
     padding-top: 2px;
+}
+.listPosition{
+    float: none;
+    width: 40%;
+    margin-left: 30%;
 }
 
 
@@ -913,13 +922,6 @@ body{
 .bot-header > div {
     width:90%;
 }
-.baner{
-    height: 180px;
-}
-.baner2{
-    height: 280px;
-
-}
 .path {
     width: 90%;
     margin-left: 5%;
@@ -940,7 +942,6 @@ body{
     font-size: 30px;
 }
 .social {
-    width: 30px;
     height: 30px;
 }
 .social > a > i {
@@ -957,6 +958,146 @@ body{
 #slider{
     margin: 5px;
 }
+.brand{
+    cursor: pointer;
+    padding: 7px;
+    text-align: center;
+    color:  #009bc8;
+    border-bottom: solid;
+}
+.brand > .imageMenCollect {
+    width: 100%;
+}
+.details{
+    display: inline-block;
+    width: 72%;
+    float: left;
+    margin-left: 3%;
+}
+.l {
+    width: 40%;
+    float: left;
+}
+.l img{
+    width: 100%;
+}
+.infoDetails{
+    width: 60%;
+    float: left;
+    color: black;
+    font-weight: 200;
+    font-size: 10px;
+    text-align: center;
+}
+.infoDetails > img {
+    width: 100px;
+}
+.nameDetails{
+    font-weight: 200;
+    color: #aaa;
+    font-size: 22px;
+    text-align: center;
+}
 
+.popup{
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.7);
+    overflow:hidden;
+    position:fixed;
+}
+.popup .popup-content{
+    margin:100px auto 0px auto;
+    width:280px;
+    height: 100%;
+    padding:10px;
+    background-color: #009bc8;
+    border-radius:10px;
+    box-shadow: 0px 0px 10px #000;
+    font-size: 16px;
+}
+.popup .popup-content-cart{
+    margin:100px auto 0px auto;
+    width:600px;
+    height: 100%;
+    padding:10px;
+    background-color: #009bc8;
+    border-radius:10px;
+    box-shadow: 0px 0px 10px #000;
+    font-size: 16px;
+}
+.popup-content > h3 {
+    margin: 0;
+    font-size:12px
+}
 
+.addProduct {
+    float: left;
+    margin-left: 40%;
+}
+.createProduct{
+    float: left;
+    margin-left: 5%;
+}
 
+.deleteProduct {
+    float: left;
+    margin-left: 40%;
+}
+
+.createProduct > button{
+    padding: 3px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    background-color: #009bc8;
+    border: 2px solid #009bc8;
+    border-radius: 2px;
+    outline: none;
+}
+.createProduct > button:hover{
+    box-shadow: 0px 0px 5px #000;
+}
+
+.addProduct > button{
+    padding: 5px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    background-color: #009bc8;
+    border: 2px solid #009bc8;
+    border-radius: 2px;
+    outline: none;
+}
+.addProduct > button:hover{
+    box-shadow: 0px 0px 10px #000;
+}
+
+.deleteProduct > button {
+    padding: 5px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    background-color: #c8111f;
+    border: 2px solid #c8111f;
+    border-radius: 2px;
+    outline: none;
+}
+
+.deleteProduct > button:hover{
+    box-shadow: 0px 0px 10px #000;
+}
+
+.tableCart{
+    width: 100%;
+    text-align: center;
+}
+
+.tableCart > tr > td{
+    width: 33%;
+}
+
+#close{
+    float: right;
+    margin-right: 1%;
+}

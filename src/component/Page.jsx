@@ -7,17 +7,56 @@ import Path from "./Path"
 import Main from "./Main"
 import Categories from "./Categories"
 import Menu from "./Menu"
+import Footer from "./Footer"
 import Footertop from "./Footer-Top"
 import Footercenter from "./Footer-Center"
 import Catalog from "./Catalog"
+import Goods from "./Goods"
+import Popup from "./PopupAuthoriz"
+import Cart from "./PopupCart"
+import Xhr from "./xhr"
 
 export default class Page extends React.Component {
 
     constructor(){
         super();
         this.state = {
+            popup: 0,
+            popup2: 0,
+            user: {
+                login: '',
+                password: '',
+                role : '',
+                access_token: '',
+                refresh_token: '',
+                product: [ ]
+            },
+            errorMessage: '',
+            details: '',
+            main: {
+                name: "Home",
+                context : []
+            },
             index: 0,
-            menu: ["Home","Men's collection","Shoes","Brand","Blog","Contact"],
+            menu: [
+                { name :"Home",
+                    context: [],
+                    uriGetList: "",
+                    uriGet: ""
+                },
+                { name :"Men's collection",
+                    context: [],
+                    uri: "menCollection",
+                },
+                { name :"Shoes",
+                    context: [],
+                    uri: "shoes",
+                },
+                { name :"Brand",
+                    context: [],
+                    uri: "brand",
+                }
+            ],
             categories:[
                 { name:  "Men's collection",
                     li: [],
@@ -40,73 +79,108 @@ export default class Page extends React.Component {
                 lang: "English",
                 log: "Men Shoes",
                 account: "My Account",
-                cart: "Shopping Cart(0)",
+                cart: "Shopping Cart",
                 search: "quick search",
                 nameCat: "Categories",
                 price: "Price",
                 catalog: "Filters",
                 size: "Size",
                 color: "Color",
-                filtr: "Filter"
+                filtr: "Filter",
+                newsletter: "Newsletter",
+                enterEmail: "Enter your email",
+                subscribe : "Subscribe",
+                hotLine : "Hot Line",
+                PaymentOptions : "Payment Options",
+                category: "Category",
+                women: "Women",
+                menSale: "Men Sale",
+                jewellery: "Jewellery",
+                accessories: "Accessories",
+                sunglass: "Sunglass",
+                sitemap: "Site map",
+                information: "Information",
+                aboutUs: "About Us",
+                deliveryInformation: "Delivery Information",
+                privacyPolicy: "Privacy Policy",
+                termsConditions: "Terms & Conditions",
+                help: " Help",
+                location: "Location",
+                orderHistory: "Order History",
+                WishList: "Wish List",
+                cart2: "Cart",
+                checkOut: "CheckOut",
+                contactUS : "Contact Us"
             },
             money: 0
         };
     }
 
     handle1(i){
+        let categories = this.state.categories;
+        let menu = this.state.menu;
         if(i==0){
+            categories[0].name =  "Men's collection";
+            categories[1].name =  "Brand";
+            categories[2].name =  "Material";
+            menu[0].name = "Home";
+            menu[1].name = "Men's collection";
+            menu[2].name = "Shoes";
+            menu[3].name = "Brand";
             this.setState({
-                menu: ["Home","Men's collection","Shoes","Brand","Blog","Contact"],
-                categories:[
-                    { name:  "Men's collection",
-                        li: [],
-                        uri: "menCollection",
-                        focused: 0
-                    },
-                    { name:  "Brand",
-                        li: [],
-                        uri: "brand",
-                        focused: 0
-                    },
-                    { name:  "Material",
-                        li: [],
-                        uri: "material",
-                        focused: 0
-                    }],
+                menu: menu,
+                categories: categories,
                 data: {
                     support : "24/7 Free Support",
                     message :  "Wellcome !",
                     lang : "English",
                     log: "Men Shoes",
                     account : "My Account",
-                    cart : "Shopping Cart(0)",
+                    cart : "Shopping Cart",
                     search : "quick search",
                     nameCat: "Categories",
                     price: "Price",
                     catalog: "Filters",
                     size: "Size",
                     color: "Color",
-                    filtr: "Filter"
+                    filtr: "Filter",
+                    newsletter: "Newsletter",
+                    enterEmail: "Enter your email",
+                    subscribe : "Subscribe",
+                    hotLine : "Hot Line",
+                    PaymentOptions : "Payment Options",
+                    category: "Category",
+                    women: "Women",
+                    menSale: "Men Sale",
+                    jewellery: "Jewellery",
+                    accessories: "Accessories",
+                    sunglass: "Sunglass",
+                    sitemap: "Site map",
+                    information: "Information",
+                    aboutUs: "About Us",
+                    deliveryInformation: "Delivery Information",
+                    privacyPolicy: "Privacy Policy",
+                    termsConditions: "Terms & Conditions",
+                    help: " Help",
+                    location: "Location",
+                    orderHistory: "Order History",
+                    WishList: "Wish List",
+                    cart2: "Cart",
+                    checkOut: "CheckOut",
+                    contactUS : "Contact Us"
                 }
             });
         }else if(i==1) {
+            categories[0].name =  "Мужская коллекция";
+            categories[1].name =  "Бренд";
+            categories[2].name =  "Материал";
+            menu[0].name = "Главная";
+            menu[1].name = "Мужская коллекция";
+            menu[2].name = "Обувь";
+            menu[3].name = "Бренд";
             this.setState({
-                menu: ["Главная","Мужская коллекция","Обувь","Бренд","Блог","Контакты"],
-                categories:[
-                    { name:  "Мужская коллекция",
-                        li: [],
-                        uri: "menCollection",
-                        focused: 0},
-                    { name:  "Бренд",
-                        li: [],
-                        uri: "brand",
-                        focused: 0
-                    },
-                    { name:  "Материал",
-                        li: [],
-                        uri: "material",
-                        focused: 0
-                    }],
+                menu: menu,
+                categories: categories,
                 data: {
                     support : "24/7 Бесплатная поддержка",
                     message :  "Добро пожаловать!",
@@ -114,24 +188,73 @@ export default class Page extends React.Component {
                     log: "Мужская обувь",
                     money : "$USD",
                     account : "Профиль",
-                    cart : "Корзина (0)",
+                    cart : "Корзина",
                     search : "Быстрый поиск",
                     nameCat: "Категории",
                     price: "Цена",
                     catalog: "Фильтры",
                     size: "Размер",
                     color: "Цвет",
-                    filtr: "Фильтр"
+                    filtr: "Фильтр",
+                    newsletter: "Подписка на новости",
+                    enterEmail: "Введите адрес электронной почты",
+                    subscribe : "Подписаться",
+                    hotLine : "Горячая линия",
+                    PaymentOptions : "Платёжные системы",
+                    category: "Категория",
+                    women: "Женщины",
+                    menSale: "Мужская распродажа",
+                    jewellery: "Украшения",
+                    accessories: "Аксессуары",
+                    sunglass: "Очки",
+                    sitemap: "Карта сайта",
+                    information: "Информация",
+                    aboutUs: "О нас",
+                    deliveryInformation: "Информация о доставке",
+                    privacyPolicy: "Конфиденциальность",
+                    termsConditions: "Правила и условия",
+                    help: "Помощь",
+                    location: "Место нахождения",
+                    orderHistory: "История заказов",
+                    WishList: "Список желаний",
+                    cart2: "Корзина",
+                    checkOut: "Выписки",
+                    contactUS : "Контакты"
                 }
             });
         }
 
     }
 
-    handle2(index){
-        this.setState({
-            index: index
-        });
+    menuHandle(index){
+        if(index>0) {
+            let uri = this.state.menu[index].uri;
+            var xhr = new Xhr({json: true});
+            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then((response) => {
+                let c = this.state.menu;
+                c[index].context = response;
+                this.setState({
+                    main: {
+                        name: c[index].name,
+                        context: c[index].context
+                    },
+                    menu: c,
+                    index: index,
+                    details: ''
+                });
+            }, (error) => {
+                console.log(error);
+            });
+        }else{
+            this.setState({
+                main: {
+                    name: this.state.menu[index].name,
+                    context: this.state.menu[index].context
+                },
+                index: index,
+                details: ''
+            });
+        }
     }
 
     handle3(index){
@@ -140,76 +263,352 @@ export default class Page extends React.Component {
         });
     }
 
-    handle4(index){
-        let i = this.state.categories[index];
-        let self=this;
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/PeopleShoes/'+i.uri+'/getListEntity', true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-            if (this.readyState != 4) return;
-            if (this.status != 200) return;
-            let c = self.state.categories;
-            c[index].li= self.parseResponse(JSON.parse(xhr.responseText),index,self.state.data.lang);
-            self.setState({
-                categories: c
+    requestFilter(uri){
+        var xhr = new Xhr({json: true});
+        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri).then((response) => {
+            let r;
+            if(response.shoesList==null) {
+                r=response;
+            }else{
+                r=response.shoesList;
+            }
+            let c = this.state.menu;
+            c[2].context = r;
+            this.setState({
+                main: {
+                    name: c[2].name,
+                    context: c[2].context
+                },
+                menu: c,
+                index: 2
             });
-        };
-    }
-
-    parseResponse(doc,index,lang){
-        var arr = [];
-        doc.map(function (item,i) {
-            if(index==0) {
-                if(lang=="English")
-                arr[i] = item.collectionNameEu+"  ("+item.amount+")";
-                else if(lang=="Русский")
-                    arr[i] = item.collectionNameRu+"  ("+item.amount+")";
-            }
-            if(index==1) {
-                arr[i] = item.name;
-            }
-            if(index==2) {
-                if(lang=="English")
-                arr[i] = item.nameEu;
-                else if(lang=="Русский")
-                    arr[i] = item.nameRu;
-            }
+        }, (error) => {
+            console.log(error);
         });
-        return arr;
     }
-
     filterPrice(min,max){
-        console.log(min+" "+max);
+        this.requestFilter("shoes?minPrice="+min+"&maxPrice="+max);
+        this.setState({
+            details: 'Price Filter'
+        })
     }
 
     filterSize(min,max){
-        console.log(min+" "+max);
+        this.requestFilter("shoes?minSize="+min+"&maxSize="+max);
+        this.setState({
+            details: 'Size Filter'
+        })
     }
 
     filterColor(color){
-        console.log(color);
+        this.requestFilter("getColor?id="+color);
+        this.setState({
+            details: 'Color Filter'
+        })
+    }
+
+
+    requestGetList(index){
+        let uri = this.state.categories[index].uri;
+        var xhr = new Xhr({json:true});
+        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri).then((response)=> {
+            let c = this.state.categories;
+            c[index].li= response;
+            c[index].focused=1;
+            this.setState({
+                categories: c
+            });
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    requestGet(index,id){
+        let uri = this.state.categories[index].uri;
+        var xhr = new Xhr({json:true});
+        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri+"?id="+id).then((response)=> {
+            let c = this.state.menu;
+            c[2].context = response.shoesList;
+            let name;
+            index == 0 ? name=response.collectionNameEu :
+                index == 1 ? name=response.name :
+                    index == 2 ? name=response.nameEu : ''
+                    this.setState({
+                main: {
+                    name: c[2].name,
+                    context: c[2].context
+                },
+                menu: c,
+                index: 2,
+                details: name
+            });
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    details(id){
+        var xhr = new Xhr({json:true});
+        xhr.get("http://localhost:8080/PeopleShoesRest_war/shoes?id="+id).then((response)=> {
+            this.setState({
+                main: {
+                    name: 'details',
+                    context : response
+                },
+                details: response.nameEu
+            });
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    profileVisibl(){
+        this.setState({
+            popup :1
+        })
+    }
+
+    profileHidden(){
+        this.setState({
+            popup :0
+        })
+    }
+
+    cartVisibl(){
+        this.setState({
+            popup2 :1
+        })
+    }
+
+    cartHidden(){
+        this.setState({
+            popup2 :0
+        })
+    }
+
+    logIn(log,pass){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json",
+                Authorization: 'Basic '+btoa("client:secret")}
+        });
+        xhr.post("http://localhost:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username="+log+"&password="+pass,null).then((response)=> {
+            let access_token = response.access_token;
+            let refresh_token= response.refresh_token;
+            var xhr = new Xhr({
+                json: false,
+                contentType: "application/json"
+            });
+            xhr.get("http://localhost:8080/PeopleShoesRest_war/role?access_token="+access_token).then((response)=> {
+                let role = response;
+                var xhr = new Xhr({
+                    json: true,
+                    contentType: "application/json"
+                });
+                 xhr.get("http://localhost:8080/PeopleShoesRest_war/cart?access_token="+access_token).then((response)=> {
+                     let product = [];
+                     response.map((item)=>{
+                         product.push(item.shoes);
+                     });
+                     this.setState({
+                         user: {
+                             login :  log,
+                             password : pass,
+                             role : role,
+                             access_token: access_token,
+                             refresh_token: refresh_token,
+                             product: product
+                         },
+                         popup :0,
+                         errorMessage: ''
+                     })
+                 },(error)=> {
+                     console.log(error);
+                     this.setState({
+                         errorMessage: error
+                     })
+                 });
+            },(error)=> {
+                console.log(error);
+                this.setState({
+                    errorMessage: error
+                })
+            });
+        },(error)=>{
+            this.setState({
+                errorMessage: error.error_description
+            })
+        });
+    }
+
+    singUp(log,pass){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let body = { username: log, password: pass};
+        xhr.post("http://localhost:8080/PeopleShoesRest_war/users",body).then((response)=> {
+               this.logIn(log,pass);
+        },(error)=>{
+            console.log(error);
+            this.setState({
+                errorMessage: "Conflict: Аккаун с таким именем уже существует"
+            });
+        });
+    }
+    exit(){
+        this.setState({
+            user: {
+                login :  '',
+                password : '',
+                role : '',
+                access_token: '',
+                refresh_token: '',
+                product: []
+            },
+            popup :0
+        })
+    }
+
+    addProductCart(item){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        let body = { username: user.login, idShoes: item.id};
+        xhr.post("http://localhost:8080/PeopleShoesRest_war/cart?access_token="+user.access_token,body).then((response)=> {
+            user.product.push(item);
+            this.setState({
+                user: user
+            })
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    removeProductCart(id){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        xhr.delete("http://localhost:8080/PeopleShoesRest_war/cart?id="+id+"&access_token="+user.access_token).then((response)=> {
+            for(let i=0;i< user.product.length;i++) {
+               user.product[i].id == id ? (
+                    i==0 ?  user.product.shift() : user.product.pop() ?
+                    user.product.splice(i, 1) : '' ) : ''
+                }
+            this.setState({
+                user: user
+            })
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    updateProfile(newPass){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        let body = { username: user.login, password : newPass, enabled: 1 };
+        xhr.put("http://localhost:8080/PeopleShoesRest_war/users?access_token="+user.access_token,body).then((response)=> {
+            console.log(response);
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    createProduct(i){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        xhr.post("http://localhost:8080/PeopleShoesRest_war/shoes?access_token="+user.access_token,i.shoes).then((response)=> {
+            console.log(response);
+            this.menuHandle(2);
+        },(error)=>{
+            console.log(error);
+        });
+    }
+    updateProduct(i){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        xhr.put("http://localhost:8080/PeopleShoesRest_war/shoes?id="+i.id+"&access_token="+user.access_token,i.shoes).then((response)=> {
+            console.log(response);
+            this.menuHandle(2);
+        },(error)=>{
+            console.log(error);
+        });
+    }
+
+    deleteProduct(i){
+        var xhr = new Xhr({
+            json: true,
+            contentType: "application/json",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+        let user = this.state.user;
+        xhr.delete("http://localhost:8080/PeopleShoesRest_war/shoes?id="+i+"&access_token="+user.access_token).then((response)=> {
+            console.log(response);
+            this.menuHandle(2);
+        },(error)=>{
+            console.log(error);
+        });
     }
 
     render() {
         return <div className="page">
+            <Cart focus={this.state.popup2} hid={this.cartHidden.bind(this)} product={this.state.user.product} removeProductCart={this.removeProductCart.bind(this)} lang={this.state.data.lang}/>
+            <Popup update={this.updateProfile.bind(this)} focus={this.state.popup} hid={this.profileHidden.bind(this)} log={this.logIn.bind(this)} sing={this.singUp.bind(this)} exit={this.exit.bind(this)} message={this.state.errorMessage} user={this.state.user.login} lang={this.state.data.lang}/>
             <Header>
-                <Topheader data={this.state.data} onHandle={this.handle1.bind(this)} onHandle2={this.handle3.bind(this)}/>
-                <Centerheader log={this.state.data.log} cart={this.state.data.cart} search={this.state.data.search}/>
-                <Botheader items={this.state.menu} onHandle={this.handle2.bind(this)}/>
+                <Topheader user={this.state.user.login} profile={this.profileVisibl.bind(this)} data={this.state.data} onHandle={this.handle1.bind(this)} onHandle2={this.handle3.bind(this)}/>
+                <Centerheader log={this.state.data.log} cart={this.state.data.cart} k={this.state.user.product.length} search={this.state.data.search} user={this.state.user} cartVisibl={this.cartVisibl.bind(this)} profileVisibl={this.profileVisibl.bind(this)}/>
+                <Botheader focus={this.state.index} items={this.state.menu} onHandle={this.menuHandle.bind(this)}/>
             </Header>
-            <Path menu={this.state.menu} index={this.state.index}/>
+            <Path menu={this.state.menu} index={this.state.index} details={this.state.details}/>
             <Main>
                 <Categories>
-                    <Menu nameCat={this.state.data.nameCat} categories={this.state.categories} onHandle={this.handle4.bind(this)}/>
+                    <Menu nameCat={this.state.data.nameCat} categories={this.state.categories} lang={this.state.data.lang} onHandle={this.requestGetList.bind(this)} onHandle2={this.requestGet.bind(this)}/>
                     <Catalog data={this.state.data} filterPrice={this.filterPrice.bind(this)} filterSize={this.filterSize.bind(this)} filterColor={this.filterColor.bind(this)}/>
                 </Categories>
+                <Goods createProduct = {this.createProduct.bind(this)} updateProduct = {this.updateProduct.bind(this)} deleteProduct={this.deleteProduct.bind(this)} context={this.state.main} lang={this.state.data.lang} money={this.state.money} onHandle2={this.requestGet.bind(this)} details={this.details.bind(this)} addProductCart={this.addProductCart.bind(this)} removeProductCart={this.removeProductCart.bind(this)} user={this.state.user} profileVisibl={this.profileVisibl.bind(this)}/>
             </Main>
-            <Footertop/>
-            <Footercenter data={this.state.data}/>
-            <div className="footer-bot">
-                Vadim Shestov 2016
-            </div>
+            <Footer>
+                <Footertop data={this.state.data}/>
+                <Footercenter data={this.state.data}/>
+                <div className="footer-bot">
+                    Vadim Shestov 2016
+                </div>
+            </Footer>
         </div>
     }
 }

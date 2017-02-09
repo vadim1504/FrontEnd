@@ -21586,17 +21586,37 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _FooterTop = __webpack_require__(188);
+	var _Footer = __webpack_require__(188);
+
+	var _Footer2 = _interopRequireDefault(_Footer);
+
+	var _FooterTop = __webpack_require__(189);
 
 	var _FooterTop2 = _interopRequireDefault(_FooterTop);
 
-	var _FooterCenter = __webpack_require__(189);
+	var _FooterCenter = __webpack_require__(190);
 
 	var _FooterCenter2 = _interopRequireDefault(_FooterCenter);
 
-	var _Catalog = __webpack_require__(190);
+	var _Catalog = __webpack_require__(191);
 
 	var _Catalog2 = _interopRequireDefault(_Catalog);
+
+	var _Goods = __webpack_require__(192);
+
+	var _Goods2 = _interopRequireDefault(_Goods);
+
+	var _PopupAuthoriz = __webpack_require__(195);
+
+	var _PopupAuthoriz2 = _interopRequireDefault(_PopupAuthoriz);
+
+	var _PopupCart = __webpack_require__(196);
+
+	var _PopupCart2 = _interopRequireDefault(_PopupCart);
+
+	var _xhr = __webpack_require__(194);
+
+	var _xhr2 = _interopRequireDefault(_xhr);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21615,8 +21635,37 @@
 	        var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this));
 
 	        _this.state = {
+	            popup: 0,
+	            popup2: 0,
+	            user: {
+	                login: '',
+	                password: '',
+	                role: '',
+	                access_token: '',
+	                refresh_token: '',
+	                product: []
+	            },
+	            errorMessage: '',
+	            details: '',
+	            main: {
+	                name: "Home",
+	                context: []
+	            },
 	            index: 0,
-	            menu: ["Home", "Men's collection", "Shoes", "Brand", "Blog", "Contact"],
+	            menu: [{ name: "Home",
+	                context: [],
+	                uriGetList: "",
+	                uriGet: ""
+	            }, { name: "Men's collection",
+	                context: [],
+	                uri: "menCollection"
+	            }, { name: "Shoes",
+	                context: [],
+	                uri: "shoes"
+	            }, { name: "Brand",
+	                context: [],
+	                uri: "brand"
+	            }],
 	            categories: [{ name: "Men's collection",
 	                li: [],
 	                uri: "menCollection",
@@ -21636,14 +21685,38 @@
 	                lang: "English",
 	                log: "Men Shoes",
 	                account: "My Account",
-	                cart: "Shopping Cart(0)",
+	                cart: "Shopping Cart",
 	                search: "quick search",
 	                nameCat: "Categories",
 	                price: "Price",
 	                catalog: "Filters",
 	                size: "Size",
 	                color: "Color",
-	                filtr: "Filter"
+	                filtr: "Filter",
+	                newsletter: "Newsletter",
+	                enterEmail: "Enter your email",
+	                subscribe: "Subscribe",
+	                hotLine: "Hot Line",
+	                PaymentOptions: "Payment Options",
+	                category: "Category",
+	                women: "Women",
+	                menSale: "Men Sale",
+	                jewellery: "Jewellery",
+	                accessories: "Accessories",
+	                sunglass: "Sunglass",
+	                sitemap: "Site map",
+	                information: "Information",
+	                aboutUs: "About Us",
+	                deliveryInformation: "Delivery Information",
+	                privacyPolicy: "Privacy Policy",
+	                termsConditions: "Terms & Conditions",
+	                help: " Help",
+	                location: "Location",
+	                orderHistory: "Order History",
+	                WishList: "Wish List",
+	                cart2: "Cart",
+	                checkOut: "CheckOut",
+	                contactUS: "Contact Us"
 	            },
 	            money: 0
 	        };
@@ -21653,53 +21726,70 @@
 	    _createClass(Page, [{
 	        key: "handle1",
 	        value: function handle1(i) {
+	            var categories = this.state.categories;
+	            var menu = this.state.menu;
 	            if (i == 0) {
+	                categories[0].name = "Men's collection";
+	                categories[1].name = "Brand";
+	                categories[2].name = "Material";
+	                menu[0].name = "Home";
+	                menu[1].name = "Men's collection";
+	                menu[2].name = "Shoes";
+	                menu[3].name = "Brand";
 	                this.setState({
-	                    menu: ["Home", "Men's collection", "Shoes", "Brand", "Blog", "Contact"],
-	                    categories: [{ name: "Men's collection",
-	                        li: [],
-	                        uri: "menCollection",
-	                        focused: 0
-	                    }, { name: "Brand",
-	                        li: [],
-	                        uri: "brand",
-	                        focused: 0
-	                    }, { name: "Material",
-	                        li: [],
-	                        uri: "material",
-	                        focused: 0
-	                    }],
+	                    menu: menu,
+	                    categories: categories,
 	                    data: {
 	                        support: "24/7 Free Support",
 	                        message: "Wellcome !",
 	                        lang: "English",
 	                        log: "Men Shoes",
 	                        account: "My Account",
-	                        cart: "Shopping Cart(0)",
+	                        cart: "Shopping Cart",
 	                        search: "quick search",
 	                        nameCat: "Categories",
 	                        price: "Price",
 	                        catalog: "Filters",
 	                        size: "Size",
 	                        color: "Color",
-	                        filtr: "Filter"
+	                        filtr: "Filter",
+	                        newsletter: "Newsletter",
+	                        enterEmail: "Enter your email",
+	                        subscribe: "Subscribe",
+	                        hotLine: "Hot Line",
+	                        PaymentOptions: "Payment Options",
+	                        category: "Category",
+	                        women: "Women",
+	                        menSale: "Men Sale",
+	                        jewellery: "Jewellery",
+	                        accessories: "Accessories",
+	                        sunglass: "Sunglass",
+	                        sitemap: "Site map",
+	                        information: "Information",
+	                        aboutUs: "About Us",
+	                        deliveryInformation: "Delivery Information",
+	                        privacyPolicy: "Privacy Policy",
+	                        termsConditions: "Terms & Conditions",
+	                        help: " Help",
+	                        location: "Location",
+	                        orderHistory: "Order History",
+	                        WishList: "Wish List",
+	                        cart2: "Cart",
+	                        checkOut: "CheckOut",
+	                        contactUS: "Contact Us"
 	                    }
 	                });
 	            } else if (i == 1) {
+	                categories[0].name = "Мужская коллекция";
+	                categories[1].name = "Бренд";
+	                categories[2].name = "Материал";
+	                menu[0].name = "Главная";
+	                menu[1].name = "Мужская коллекция";
+	                menu[2].name = "Обувь";
+	                menu[3].name = "Бренд";
 	                this.setState({
-	                    menu: ["Главная", "Мужская коллекция", "Обувь", "Бренд", "Блог", "Контакты"],
-	                    categories: [{ name: "Мужская коллекция",
-	                        li: [],
-	                        uri: "menCollection",
-	                        focused: 0 }, { name: "Бренд",
-	                        li: [],
-	                        uri: "brand",
-	                        focused: 0
-	                    }, { name: "Материал",
-	                        li: [],
-	                        uri: "material",
-	                        focused: 0
-	                    }],
+	                    menu: menu,
+	                    categories: categories,
 	                    data: {
 	                        support: "24/7 Бесплатная поддержка",
 	                        message: "Добро пожаловать!",
@@ -21707,24 +21797,75 @@
 	                        log: "Мужская обувь",
 	                        money: "$USD",
 	                        account: "Профиль",
-	                        cart: "Корзина (0)",
+	                        cart: "Корзина",
 	                        search: "Быстрый поиск",
 	                        nameCat: "Категории",
 	                        price: "Цена",
 	                        catalog: "Фильтры",
 	                        size: "Размер",
 	                        color: "Цвет",
-	                        filtr: "Фильтр"
+	                        filtr: "Фильтр",
+	                        newsletter: "Подписка на новости",
+	                        enterEmail: "Введите адрес электронной почты",
+	                        subscribe: "Подписаться",
+	                        hotLine: "Горячая линия",
+	                        PaymentOptions: "Платёжные системы",
+	                        category: "Категория",
+	                        women: "Женщины",
+	                        menSale: "Мужская распродажа",
+	                        jewellery: "Украшения",
+	                        accessories: "Аксессуары",
+	                        sunglass: "Очки",
+	                        sitemap: "Карта сайта",
+	                        information: "Информация",
+	                        aboutUs: "О нас",
+	                        deliveryInformation: "Информация о доставке",
+	                        privacyPolicy: "Конфиденциальность",
+	                        termsConditions: "Правила и условия",
+	                        help: "Помощь",
+	                        location: "Место нахождения",
+	                        orderHistory: "История заказов",
+	                        WishList: "Список желаний",
+	                        cart2: "Корзина",
+	                        checkOut: "Выписки",
+	                        contactUS: "Контакты"
 	                    }
 	                });
 	            }
 	        }
 	    }, {
-	        key: "handle2",
-	        value: function handle2(index) {
-	            this.setState({
-	                index: index
-	            });
+	        key: "menuHandle",
+	        value: function menuHandle(index) {
+	            var _this2 = this;
+
+	            if (index > 0) {
+	                var uri = this.state.menu[index].uri;
+	                var xhr = new _xhr2.default({ json: true });
+	                xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	                    var c = _this2.state.menu;
+	                    c[index].context = response;
+	                    _this2.setState({
+	                        main: {
+	                            name: c[index].name,
+	                            context: c[index].context
+	                        },
+	                        menu: c,
+	                        index: index,
+	                        details: ''
+	                    });
+	                }, function (error) {
+	                    console.log(error);
+	                });
+	            } else {
+	                this.setState({
+	                    main: {
+	                        name: this.state.menu[index].name,
+	                        context: this.state.menu[index].context
+	                    },
+	                    index: index,
+	                    details: ''
+	                });
+	            }
 	        }
 	    }, {
 	        key: "handle3",
@@ -21734,54 +21875,366 @@
 	            });
 	        }
 	    }, {
-	        key: "handle4",
-	        value: function handle4(index) {
-	            var i = this.state.categories[index];
-	            var self = this;
-	            var xhr = new XMLHttpRequest();
-	            xhr.open('GET', 'http://localhost:8080/PeopleShoes/' + i.uri + '/getListEntity', true);
-	            xhr.send();
-	            xhr.onreadystatechange = function () {
-	                if (this.readyState != 4) return;
-	                if (this.status != 200) return;
-	                var c = self.state.categories;
-	                c[index].li = self.parseResponse(JSON.parse(xhr.responseText), index, self.state.data.lang);
-	                self.setState({
-	                    categories: c
+	        key: "requestFilter",
+	        value: function requestFilter(uri) {
+	            var _this3 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	                var r = void 0;
+	                if (response.shoesList == null) {
+	                    r = response;
+	                } else {
+	                    r = response.shoesList;
+	                }
+	                var c = _this3.state.menu;
+	                c[2].context = r;
+	                _this3.setState({
+	                    main: {
+	                        name: c[2].name,
+	                        context: c[2].context
+	                    },
+	                    menu: c,
+	                    index: 2
 	                });
-	            };
-	        }
-	    }, {
-	        key: "parseResponse",
-	        value: function parseResponse(doc, index, lang) {
-	            var arr = [];
-	            doc.map(function (item, i) {
-	                if (index == 0) {
-	                    if (lang == "English") arr[i] = item.collectionNameEu + "  (" + item.amount + ")";else if (lang == "Русский") arr[i] = item.collectionNameRu + "  (" + item.amount + ")";
-	                }
-	                if (index == 1) {
-	                    arr[i] = item.name;
-	                }
-	                if (index == 2) {
-	                    if (lang == "English") arr[i] = item.nameEu;else if (lang == "Русский") arr[i] = item.nameRu;
-	                }
+	            }, function (error) {
+	                console.log(error);
 	            });
-	            return arr;
 	        }
 	    }, {
 	        key: "filterPrice",
 	        value: function filterPrice(min, max) {
-	            console.log(min + " " + max);
+	            this.requestFilter("shoes?minPrice=" + min + "&maxPrice=" + max);
+	            this.setState({
+	                details: 'Price Filter'
+	            });
 	        }
 	    }, {
 	        key: "filterSize",
 	        value: function filterSize(min, max) {
-	            console.log(min + " " + max);
+	            this.requestFilter("shoes?minSize=" + min + "&maxSize=" + max);
+	            this.setState({
+	                details: 'Size Filter'
+	            });
 	        }
 	    }, {
 	        key: "filterColor",
 	        value: function filterColor(color) {
-	            console.log(color);
+	            this.requestFilter("getColor?id=" + color);
+	            this.setState({
+	                details: 'Color Filter'
+	            });
+	        }
+	    }, {
+	        key: "requestGetList",
+	        value: function requestGetList(index) {
+	            var _this4 = this;
+
+	            var uri = this.state.categories[index].uri;
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	                var c = _this4.state.categories;
+	                c[index].li = response;
+	                c[index].focused = 1;
+	                _this4.setState({
+	                    categories: c
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "requestGet",
+	        value: function requestGet(index, id) {
+	            var _this5 = this;
+
+	            var uri = this.state.categories[index].uri;
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri + "?id=" + id).then(function (response) {
+	                var c = _this5.state.menu;
+	                c[2].context = response.shoesList;
+	                var name = void 0;
+	                index == 0 ? name = response.collectionNameEu : index == 1 ? name = response.name : index == 2 ? name = response.nameEu : '';
+	                _this5.setState({
+	                    main: {
+	                        name: c[2].name,
+	                        context: c[2].context
+	                    },
+	                    menu: c,
+	                    index: 2,
+	                    details: name
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "details",
+	        value: function details(id) {
+	            var _this6 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + id).then(function (response) {
+	                _this6.setState({
+	                    main: {
+	                        name: 'details',
+	                        context: response
+	                    },
+	                    details: response.nameEu
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "profileVisibl",
+	        value: function profileVisibl() {
+	            this.setState({
+	                popup: 1
+	            });
+	        }
+	    }, {
+	        key: "profileHidden",
+	        value: function profileHidden() {
+	            this.setState({
+	                popup: 0
+	            });
+	        }
+	    }, {
+	        key: "cartVisibl",
+	        value: function cartVisibl() {
+	            this.setState({
+	                popup2: 1
+	            });
+	        }
+	    }, {
+	        key: "cartHidden",
+	        value: function cartHidden() {
+	            this.setState({
+	                popup2: 0
+	            });
+	        }
+	    }, {
+	        key: "logIn",
+	        value: function logIn(log, pass) {
+	            var _this7 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json",
+	                    Authorization: 'Basic ' + btoa("client:secret") }
+	            });
+	            xhr.post("http://localhost:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username=" + log + "&password=" + pass, null).then(function (response) {
+	                var access_token = response.access_token;
+	                var refresh_token = response.refresh_token;
+	                var xhr = new _xhr2.default({
+	                    json: false,
+	                    contentType: "application/json"
+	                });
+	                xhr.get("http://localhost:8080/PeopleShoesRest_war/role?access_token=" + access_token).then(function (response) {
+	                    var role = response;
+	                    var xhr = new _xhr2.default({
+	                        json: true,
+	                        contentType: "application/json"
+	                    });
+	                    xhr.get("http://localhost:8080/PeopleShoesRest_war/cart?access_token=" + access_token).then(function (response) {
+	                        var product = [];
+	                        response.map(function (item) {
+	                            product.push(item.shoes);
+	                        });
+	                        _this7.setState({
+	                            user: {
+	                                login: log,
+	                                password: pass,
+	                                role: role,
+	                                access_token: access_token,
+	                                refresh_token: refresh_token,
+	                                product: product
+	                            },
+	                            popup: 0,
+	                            errorMessage: ''
+	                        });
+	                    }, function (error) {
+	                        console.log(error);
+	                        _this7.setState({
+	                            errorMessage: error
+	                        });
+	                    });
+	                }, function (error) {
+	                    console.log(error);
+	                    _this7.setState({
+	                        errorMessage: error
+	                    });
+	                });
+	            }, function (error) {
+	                _this7.setState({
+	                    errorMessage: error.error_description
+	                });
+	            });
+	        }
+	    }, {
+	        key: "singUp",
+	        value: function singUp(log, pass) {
+	            var _this8 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var body = { username: log, password: pass };
+	            xhr.post("http://localhost:8080/PeopleShoesRest_war/users", body).then(function (response) {
+	                _this8.logIn(log, pass);
+	            }, function (error) {
+	                console.log(error);
+	                _this8.setState({
+	                    errorMessage: "Conflict: Аккаун с таким именем уже существует"
+	                });
+	            });
+	        }
+	    }, {
+	        key: "exit",
+	        value: function exit() {
+	            this.setState({
+	                user: {
+	                    login: '',
+	                    password: '',
+	                    role: '',
+	                    access_token: '',
+	                    refresh_token: '',
+	                    product: []
+	                },
+	                popup: 0
+	            });
+	        }
+	    }, {
+	        key: "addProductCart",
+	        value: function addProductCart(item) {
+	            var _this9 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            var body = { username: user.login, idShoes: item.id };
+	            xhr.post("http://localhost:8080/PeopleShoesRest_war/cart?access_token=" + user.access_token, body).then(function (response) {
+	                user.product.push(item);
+	                _this9.setState({
+	                    user: user
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "removeProductCart",
+	        value: function removeProductCart(id) {
+	            var _this10 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            xhr.delete("http://localhost:8080/PeopleShoesRest_war/cart?id=" + id + "&access_token=" + user.access_token).then(function (response) {
+	                for (var i = 0; i < user.product.length; i++) {
+	                    user.product[i].id == id ? i == 0 ? user.product.shift() : user.product.pop() ? user.product.splice(i, 1) : '' : '';
+	                }
+	                _this10.setState({
+	                    user: user
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "updateProfile",
+	        value: function updateProfile(newPass) {
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            var body = { username: user.login, password: newPass, enabled: 1 };
+	            xhr.put("http://localhost:8080/PeopleShoesRest_war/users?access_token=" + user.access_token, body).then(function (response) {
+	                console.log(response);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "createProduct",
+	        value: function createProduct(i) {
+	            var _this11 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            xhr.post("http://localhost:8080/PeopleShoesRest_war/shoes?access_token=" + user.access_token, i.shoes).then(function (response) {
+	                console.log(response);
+	                _this11.menuHandle(2);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "updateProduct",
+	        value: function updateProduct(i) {
+	            var _this12 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            xhr.put("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + i.id + "&access_token=" + user.access_token, i.shoes).then(function (response) {
+	                console.log(response);
+	                _this12.menuHandle(2);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "deleteProduct",
+	        value: function deleteProduct(i) {
+	            var _this13 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            xhr.delete("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + i + "&access_token=" + user.access_token).then(function (response) {
+	                console.log(response);
+	                _this13.menuHandle(2);
+	            }, function (error) {
+	                console.log(error);
+	            });
 	        }
 	    }, {
 	        key: "render",
@@ -21789,30 +22242,37 @@
 	            return _react2.default.createElement(
 	                "div",
 	                { className: "page" },
+	                _react2.default.createElement(_PopupCart2.default, { focus: this.state.popup2, hid: this.cartHidden.bind(this), product: this.state.user.product, removeProductCart: this.removeProductCart.bind(this), lang: this.state.data.lang }),
+	                _react2.default.createElement(_PopupAuthoriz2.default, { update: this.updateProfile.bind(this), focus: this.state.popup, hid: this.profileHidden.bind(this), log: this.logIn.bind(this), sing: this.singUp.bind(this), exit: this.exit.bind(this), message: this.state.errorMessage, user: this.state.user.login, lang: this.state.data.lang }),
 	                _react2.default.createElement(
 	                    _Header2.default,
 	                    null,
-	                    _react2.default.createElement(_TopHeader2.default, { data: this.state.data, onHandle: this.handle1.bind(this), onHandle2: this.handle3.bind(this) }),
-	                    _react2.default.createElement(_CenterHeader2.default, { log: this.state.data.log, cart: this.state.data.cart, search: this.state.data.search }),
-	                    _react2.default.createElement(_BotHeader2.default, { items: this.state.menu, onHandle: this.handle2.bind(this) })
+	                    _react2.default.createElement(_TopHeader2.default, { user: this.state.user.login, profile: this.profileVisibl.bind(this), data: this.state.data, onHandle: this.handle1.bind(this), onHandle2: this.handle3.bind(this) }),
+	                    _react2.default.createElement(_CenterHeader2.default, { log: this.state.data.log, cart: this.state.data.cart, k: this.state.user.product.length, search: this.state.data.search, user: this.state.user, cartVisibl: this.cartVisibl.bind(this), profileVisibl: this.profileVisibl.bind(this) }),
+	                    _react2.default.createElement(_BotHeader2.default, { focus: this.state.index, items: this.state.menu, onHandle: this.menuHandle.bind(this) })
 	                ),
-	                _react2.default.createElement(_Path2.default, { menu: this.state.menu, index: this.state.index }),
+	                _react2.default.createElement(_Path2.default, { menu: this.state.menu, index: this.state.index, details: this.state.details }),
 	                _react2.default.createElement(
 	                    _Main2.default,
 	                    null,
 	                    _react2.default.createElement(
 	                        _Categories2.default,
 	                        null,
-	                        _react2.default.createElement(_Menu2.default, { nameCat: this.state.data.nameCat, categories: this.state.categories, onHandle: this.handle4.bind(this) }),
+	                        _react2.default.createElement(_Menu2.default, { nameCat: this.state.data.nameCat, categories: this.state.categories, lang: this.state.data.lang, onHandle: this.requestGetList.bind(this), onHandle2: this.requestGet.bind(this) }),
 	                        _react2.default.createElement(_Catalog2.default, { data: this.state.data, filterPrice: this.filterPrice.bind(this), filterSize: this.filterSize.bind(this), filterColor: this.filterColor.bind(this) })
-	                    )
+	                    ),
+	                    _react2.default.createElement(_Goods2.default, { createProduct: this.createProduct.bind(this), updateProduct: this.updateProduct.bind(this), deleteProduct: this.deleteProduct.bind(this), context: this.state.main, lang: this.state.data.lang, money: this.state.money, onHandle2: this.requestGet.bind(this), details: this.details.bind(this), addProductCart: this.addProductCart.bind(this), removeProductCart: this.removeProductCart.bind(this), user: this.state.user, profileVisibl: this.profileVisibl.bind(this) })
 	                ),
-	                _react2.default.createElement(_FooterTop2.default, null),
-	                _react2.default.createElement(_FooterCenter2.default, { data: this.state.data }),
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "footer-bot" },
-	                    "Vadim Shestov 2016"
+	                    _Footer2.default,
+	                    null,
+	                    _react2.default.createElement(_FooterTop2.default, { data: this.state.data }),
+	                    _react2.default.createElement(_FooterCenter2.default, { data: this.state.data }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "footer-bot" },
+	                        "Vadim Shestov 2016"
+	                    )
 	                )
 	            );
 	        }
@@ -21941,6 +22401,11 @@
 	            }
 	        }
 	    }, {
+	        key: "profile",
+	        value: function profile() {
+	            this.props.profile();
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            var money = void 0;
@@ -22012,15 +22477,19 @@
 	                            ),
 	                            _react2.default.createElement(
 	                                "li",
-	                                { className: "li" },
+	                                { className: "li", onClick: this.profile.bind(this) },
 	                                _react2.default.createElement(
 	                                    "a",
 	                                    { className: "ap" },
 	                                    _react2.default.createElement("i", { className: "fa fa-gear" }),
-	                                    _react2.default.createElement(
+	                                    this.props.user != '' ? _react2.default.createElement(
 	                                        "span",
 	                                        null,
 	                                        " ",
+	                                        this.props.user
+	                                    ) : _react2.default.createElement(
+	                                        "span",
+	                                        null,
 	                                        data.account
 	                                    )
 	                                )
@@ -22075,6 +22544,11 @@
 	    }
 
 	    _createClass(Centerheader, [{
+	        key: "click",
+	        value: function click() {
+	            this.props.user.login == '' ? this.props.profileVisibl() : this.props.cartVisibl();
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -22106,12 +22580,15 @@
 	                        { className: "center-header-r" },
 	                        _react2.default.createElement(
 	                            "button",
-	                            { className: "but-shop", type: "button" },
+	                            { className: "but-shop", type: "button", onClick: this.click.bind(this) },
 	                            _react2.default.createElement("span", { className: "fa fa-shopping-bag circle" }),
 	                            _react2.default.createElement(
 	                                "span",
 	                                { className: "text" },
-	                                this.props.cart
+	                                this.props.cart,
+	                                " (",
+	                                this.props.k,
+	                                ")"
 	                            )
 	                        )
 	                    )
@@ -22213,13 +22690,13 @@
 	var Botheader = function (_React$Component) {
 	    _inherits(Botheader, _React$Component);
 
-	    function Botheader() {
+	    function Botheader(props) {
 	        _classCallCheck(this, Botheader);
 
 	        var _this = _possibleConstructorReturn(this, (Botheader.__proto__ || Object.getPrototypeOf(Botheader)).call(this));
 
 	        _this.state = {
-	            focused: 0
+	            focused: props.focus
 	        };
 	        return _this;
 	    }
@@ -22248,7 +22725,7 @@
 	                            null,
 	                            self.props.items.map(function (item, index) {
 	                                var style = "";
-	                                if (self.state.focused == index) {
+	                                if (self.props.focus == index) {
 	                                    style = "activ";
 	                                }
 	                                return _react2.default.createElement(
@@ -22257,8 +22734,8 @@
 	                                    _react2.default.createElement(
 	                                        "a",
 	                                        null,
-	                                        item == 'Home' ? _react2.default.createElement("i", { className: "fa fa-home" }) : '',
-	                                        item
+	                                        item.name == 'Home' ? _react2.default.createElement("i", { className: "fa fa-home" }) : '',
+	                                        item.name
 	                                    )
 	                                );
 	                            })
@@ -22317,14 +22794,15 @@
 	                    "span",
 	                    { className: "whitesmock" },
 	                    _react2.default.createElement("i", { className: "fa fa-home" }),
-	                    this.props.menu[0]
+	                    this.props.menu[0].name
 	                ),
 	                _react2.default.createElement(
 	                    "span",
 	                    { className: "black" },
 	                    "\xBB",
-	                    this.props.menu[this.props.index],
-	                    "\xBB"
+	                    this.props.menu[this.props.index].name,
+	                    "\xBB",
+	                    this.props.details
 	                )
 	            );
 	        }
@@ -22464,20 +22942,20 @@
 	var Menu = function (_React$Component) {
 	    _inherits(Menu, _React$Component);
 
-	    function Menu() {
+	    function Menu(props) {
 	        _classCallCheck(this, Menu);
 
 	        var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this));
 
 	        _this.state = {
-	            categories: []
+	            categories: props.categories
 	        };
 	        return _this;
 	    }
 
 	    _createClass(Menu, [{
-	        key: "clicked",
-	        value: function clicked(index) {
+	        key: "clickedUl",
+	        value: function clickedUl(index) {
 	            var f = this.props.categories;
 	            if (f[index].focused == 0) {
 	                f[index].focused = 1;
@@ -22488,6 +22966,11 @@
 	            this.setState({
 	                categories: f
 	            });
+	        }
+	    }, {
+	        key: "clickedLi",
+	        value: function clickedLi(index, id) {
+	            this.props.onHandle2(index, id);
 	        }
 	    }, {
 	        key: "render",
@@ -22520,6 +23003,7 @@
 	                            "ul",
 	                            { className: "accordion" },
 	                            self.props.categories.map(function (item, index) {
+	                                var i = item;
 	                                return _react2.default.createElement(
 	                                    "div",
 	                                    null,
@@ -22528,7 +23012,7 @@
 	                                        { className: "accordinDiv" },
 	                                        _react2.default.createElement(
 	                                            "li",
-	                                            { onClick: self.clicked.bind(self, index) },
+	                                            { onClick: self.clickedUl.bind(self, index) },
 	                                            _react2.default.createElement(
 	                                                "a",
 	                                                { className: "accordion-li" },
@@ -22543,13 +23027,12 @@
 	                                        item.focused == 0 ? '' : _react2.default.createElement(
 	                                            "ul",
 	                                            { className: "panelAcc" },
-	                                            item.li.map(function (item, index) {
+	                                            item.li.map(function (item) {
 	                                                return _react2.default.createElement(
 	                                                    "li",
-	                                                    null,
-	                                                    " ",
-	                                                    item,
-	                                                    " "
+	                                                    { onClick: self.clickedLi.bind(self, index, item.id) },
+	                                                    self.props.lang == "English" ? i.name == "Men's collection" ? item.collectionNameEu : i.name == "Brand" ? item.name : i.name == "Material" ? item.nameEu : "" : i.name == "Мужская коллекция" ? item.collectionNameRu : i.name == "Бренд" ? item.name : i.name == "Материал" ? item.nameRu : "",
+	                                                    item.amount == undefined ? '' : ' (' + item.amount + ')'
 	                                                );
 	                                            })
 	                                        )
@@ -22570,6 +23053,55 @@
 
 /***/ },
 /* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(177);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Footer = function (_React$Component) {
+	    _inherits(Footer, _React$Component);
+
+	    function Footer() {
+	        _classCallCheck(this, Footer);
+
+	        return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+	    }
+
+	    _createClass(Footer, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "footer" },
+	                this.props.children
+	            );
+	        }
+	    }]);
+
+	    return Footer;
+	}(_react2.default.Component);
+
+	exports.default = Footer;
+
+/***/ },
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22619,13 +23151,13 @@
 	                            _react2.default.createElement(
 	                                "h2",
 	                                { className: "text2" },
-	                                "Newsletter"
+	                                this.props.data.newsletter
 	                            ),
-	                            _react2.default.createElement("input", { className: "email", type: "text", name: "email", placeholder: "Enter your email" }),
+	                            _react2.default.createElement("input", { className: "email", type: "text", name: "email", placeholder: this.props.data.enterEmail }),
 	                            _react2.default.createElement(
 	                                "button",
 	                                { className: "but2" },
-	                                "Subscribe"
+	                                this.props.data.subscribe
 	                            )
 	                        )
 	                    ),
@@ -22639,7 +23171,7 @@
 	                                "h2",
 	                                { className: "text2" },
 	                                _react2.default.createElement("div", { className: "mob fa fa-phone" }),
-	                                "Hot Line"
+	                                this.props.data.hotLine
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -22663,7 +23195,7 @@
 	                        _react2.default.createElement(
 	                            "h2",
 	                            { className: "text2" },
-	                            "Payment Options"
+	                            this.props.data.PaymentOptions
 	                        ),
 	                        _react2.default.createElement(
 	                            "div",
@@ -22726,7 +23258,7 @@
 	exports.default = Footertop;
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22761,6 +23293,9 @@
 	    _createClass(Footercenter, [{
 	        key: "render",
 	        value: function render() {
+	            var category = [this.props.data.women, this.props.data.menSale, this.props.data.jewellery, this.props.data.accessories, this.props.data.sunglass, this.props.data.sitemap];
+	            var information = [this.props.data.aboutUs, this.props.data.deliveryInformation, this.props.data.privacyPolicy, this.props.data.termsConditions, this.props.data.help, this.props.data.location];
+	            var account = [this.props.data.account, this.props.data.orderHistory, this.props.data.WishList, this.props.data.newsletter, this.props.data.cart2, this.props.data.checkOut];
 	            return _react2.default.createElement(
 	                "div",
 	                { className: "footer-center" },
@@ -22838,7 +23373,7 @@
 	                            _react2.default.createElement(
 	                                "h3",
 	                                { className: "h3" },
-	                                "Category"
+	                                this.props.data.category
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -22846,90 +23381,22 @@
 	                                _react2.default.createElement(
 	                                    "ul",
 	                                    null,
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                    category.map(function (item) {
+	                                        return _react2.default.createElement(
+	                                            "li",
+	                                            null,
 	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Women"
+	                                                "a",
+	                                                { className: "inform" },
+	                                                _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                                _react2.default.createElement(
+	                                                    "span",
+	                                                    null,
+	                                                    item
+	                                                )
 	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Men Sale"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Jewellery"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Accessories"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Sunglass"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Site map"
-	                                            )
-	                                        )
-	                                    )
+	                                        );
+	                                    })
 	                                )
 	                            )
 	                        )
@@ -22943,7 +23410,7 @@
 	                            _react2.default.createElement(
 	                                "h3",
 	                                { className: "h3" },
-	                                "Information"
+	                                this.props.data.information
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -22951,90 +23418,22 @@
 	                                _react2.default.createElement(
 	                                    "ul",
 	                                    null,
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                    information.map(function (item) {
+	                                        return _react2.default.createElement(
+	                                            "li",
+	                                            null,
 	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "About Us"
+	                                                "a",
+	                                                { className: "inform" },
+	                                                _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                                _react2.default.createElement(
+	                                                    "span",
+	                                                    null,
+	                                                    item
+	                                                )
 	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Delivery Information"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Privacy Policy"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Terms & Conditions"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Help"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Location"
-	                                            )
-	                                        )
-	                                    )
+	                                        );
+	                                    })
 	                                )
 	                            )
 	                        )
@@ -23048,7 +23447,7 @@
 	                            _react2.default.createElement(
 	                                "h3",
 	                                { className: "h3" },
-	                                "My Account"
+	                                this.props.data.account
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -23056,90 +23455,22 @@
 	                                _react2.default.createElement(
 	                                    "ul",
 	                                    null,
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                    account.map(function (item) {
+	                                        return _react2.default.createElement(
+	                                            "li",
+	                                            null,
 	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "My Account"
+	                                                "a",
+	                                                { className: "inform" },
+	                                                _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
+	                                                _react2.default.createElement(
+	                                                    "span",
+	                                                    null,
+	                                                    item
+	                                                )
 	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Order History"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Wish List"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Newsletter"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "Cart"
-	                                            )
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            "a",
-	                                            { className: "inform" },
-	                                            _react2.default.createElement("i", { className: "fa fa-angle-double-right" }),
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                null,
-	                                                "CheckOut"
-	                                            )
-	                                        )
-	                                    )
+	                                        );
+	                                    })
 	                                )
 	                            )
 	                        )
@@ -23153,7 +23484,7 @@
 	                            _react2.default.createElement(
 	                                "h3",
 	                                { className: "h3" },
-	                                "Contact Us"
+	                                this.props.data.contactUS
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -23232,10 +23563,10 @@
 	exports.default = Footercenter;
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -23268,13 +23599,13 @@
 	            maxPrice: 0,
 	            minSize: 0,
 	            maxSize: 0,
-	            color: ""
+	            color: ''
 	        };
 	        return _this;
 	    }
 
 	    _createClass(Catalog, [{
-	        key: "filterPrice",
+	        key: 'filterPrice',
 	        value: function filterPrice() {
 	            var min = document.getElementById('minPrice').value;
 	            var max = document.getElementById('maxPrice').value;
@@ -23283,7 +23614,7 @@
 	            this.props.filterPrice(min, max);
 	        }
 	    }, {
-	        key: "filterSize",
+	        key: 'filterSize',
 	        value: function filterSize() {
 	            var min = document.getElementById('minSize').value;
 	            var max = document.getElementById('maxSize').value;
@@ -23292,88 +23623,87 @@
 	            this.props.filterSize(min, max);
 	        }
 	    }, {
-	        key: "filterColor",
+	        key: 'filterColor',
 	        value: function filterColor(i) {
-	            var color = ["Красный", "Оранжевый", "Жёлтый", "Жёлто-зелёный(шартрёз)", "Зелёный", "Изумрудный", "Голубой", "Лазурный", "Синий", "Фиолетовый", "Пурпурный", "Малиновый"];
-	            this.state.color = color[i];
-	            this.props.filterColor(color[i]);
+	            this.state.color = i;
+	            this.props.filterColor(i);
 	        }
 	    }, {
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "section",
-	                { className: "catalog" },
+	                'section',
+	                { className: 'catalog' },
 	                _react2.default.createElement(
-	                    "h2",
-	                    { className: "catalog-header" },
+	                    'h2',
+	                    { className: 'catalog-header' },
 	                    _react2.default.createElement(
-	                        "span",
+	                        'span',
 	                        null,
 	                        this.props.data.catalog
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "form",
-	                    { className: "catalog-form" },
+	                    'form',
+	                    { className: 'catalog-form' },
 	                    _react2.default.createElement(
-	                        "div",
+	                        'div',
 	                        null,
 	                        _react2.default.createElement(
-	                            "label",
+	                            'label',
 	                            null,
 	                            this.props.data.price
 	                        )
 	                    ),
-	                    _react2.default.createElement("div", { id: "sliderPrice" }),
+	                    _react2.default.createElement('div', { id: 'sliderPrice' }),
 	                    _react2.default.createElement(
-	                        "div",
+	                        'div',
 	                        null,
-	                        _react2.default.createElement("input", { id: "minPrice", className: "min", type: "text", placeholder: "min" }),
-	                        _react2.default.createElement("input", { id: "maxPrice", className: "max", type: "text", placeholder: "max" }),
-	                        _react2.default.createElement("input", { className: "filter", type: "button", value: this.props.data.filtr, onClick: this.filterPrice.bind(this) })
+	                        _react2.default.createElement('input', { id: 'minPrice', className: 'min', type: 'text', placeholder: 'min' }),
+	                        _react2.default.createElement('input', { id: 'maxPrice', className: 'max', type: 'text', placeholder: 'max' }),
+	                        _react2.default.createElement('input', { className: 'filter', type: 'button', value: this.props.data.filtr, onClick: this.filterPrice.bind(this) })
 	                    ),
 	                    _react2.default.createElement(
-	                        "div",
+	                        'div',
 	                        null,
 	                        _react2.default.createElement(
-	                            "label",
+	                            'label',
 	                            null,
 	                            this.props.data.size
 	                        )
 	                    ),
-	                    _react2.default.createElement("div", { id: "sliderSize" }),
+	                    _react2.default.createElement('div', { id: 'sliderSize' }),
 	                    _react2.default.createElement(
-	                        "div",
+	                        'div',
 	                        null,
-	                        _react2.default.createElement("input", { id: "minSize", className: "min", type: "text", placeholder: "min" }),
-	                        _react2.default.createElement("input", { id: "maxSize", className: "max", type: "text", placeholder: "max" }),
-	                        _react2.default.createElement("input", { className: "filter", type: "button", value: this.props.data.filtr, onClick: this.filterSize.bind(this) })
+	                        _react2.default.createElement('input', { id: 'minSize', className: 'min', type: 'text', placeholder: 'min' }),
+	                        _react2.default.createElement('input', { id: 'maxSize', className: 'max', type: 'text', placeholder: 'max' }),
+	                        _react2.default.createElement('input', { className: 'filter', type: 'button', value: this.props.data.filtr, onClick: this.filterSize.bind(this) })
 	                    ),
 	                    _react2.default.createElement(
-	                        "div",
+	                        'div',
 	                        null,
 	                        _react2.default.createElement(
-	                            "label",
+	                            'label',
 	                            null,
 	                            this.props.data.color
 	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "color" },
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#FF0000' }, type: "button", onClick: this.filterColor.bind(this, 0) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#FF8000' }, type: "button", onClick: this.filterColor.bind(this, 1) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#FFFF00' }, type: "button", onClick: this.filterColor.bind(this, 2) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#80FF00' }, type: "button", onClick: this.filterColor.bind(this, 3) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#00FF00' }, type: "button", onClick: this.filterColor.bind(this, 4) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#00FF80' }, type: "button", onClick: this.filterColor.bind(this, 5) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#00FFFF' }, type: "button", onClick: this.filterColor.bind(this, 6) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#0080FF' }, type: "button", onClick: this.filterColor.bind(this, 7) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#0000FF' }, type: "button", onClick: this.filterColor.bind(this, 8) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#8000FF' }, type: "button", onClick: this.filterColor.bind(this, 9) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#FF00FF' }, type: "button", onClick: this.filterColor.bind(this, 10) }),
-	                        _react2.default.createElement("input", { style: { backgroundColor: '#FF0080' }, type: "button", onClick: this.filterColor.bind(this, 11) })
+	                        'div',
+	                        { className: 'color' },
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#FF0000' }, type: 'button', onClick: this.filterColor.bind(this, 1) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#FF8000' }, type: 'button', onClick: this.filterColor.bind(this, 2) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#FFFF00' }, type: 'button', onClick: this.filterColor.bind(this, 3) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#80FF00' }, type: 'button', onClick: this.filterColor.bind(this, 4) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#00FF00' }, type: 'button', onClick: this.filterColor.bind(this, 5) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#00FF80' }, type: 'button', onClick: this.filterColor.bind(this, 6) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#00FFFF' }, type: 'button', onClick: this.filterColor.bind(this, 7) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#0080FF' }, type: 'button', onClick: this.filterColor.bind(this, 8) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#0000FF' }, type: 'button', onClick: this.filterColor.bind(this, 9) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#8000FF' }, type: 'button', onClick: this.filterColor.bind(this, 10) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#FF00FF' }, type: 'button', onClick: this.filterColor.bind(this, 11) }),
+	                        _react2.default.createElement('input', { style: { backgroundColor: '#FF0080' }, type: 'button', onClick: this.filterColor.bind(this, 12) })
 	                    )
 	                )
 	            );
@@ -23384,6 +23714,1572 @@
 	}(_react2.default.Component);
 
 	exports.default = Catalog;
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(177);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Panel = __webpack_require__(193);
+
+	var _Panel2 = _interopRequireDefault(_Panel);
+
+	var _xhr = __webpack_require__(194);
+
+	var _xhr2 = _interopRequireDefault(_xhr);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Goods = function (_React$Component) {
+	    _inherits(Goods, _React$Component);
+
+	    function Goods() {
+	        _classCallCheck(this, Goods);
+
+	        var _this = _possibleConstructorReturn(this, (Goods.__proto__ || Object.getPrototypeOf(Goods)).call(this));
+
+	        _this.state = {
+	            position: 0,
+	            number: 0,
+	            n: 1,
+	            slots: 6,
+	            sort: 0,
+	            focusInput: 0,
+	            materialList: [],
+	            colorList: [],
+	            collectionList: [],
+	            sizeList: [],
+	            brandList: [],
+	            create: {
+	                i: 0,
+	                shoes: {}
+	            }
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Goods, [{
+	        key: "home",
+	        value: function home() {
+	            var context = this.props.context;
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "goods" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "baner" },
+	                    _react2.default.createElement("img", { src: "resource/baner.jpg" })
+	                )
+	            );
+	        }
+	    }, {
+	        key: "mensCollection",
+	        value: function mensCollection() {
+	            var _this2 = this;
+
+	            var context = this.props.context;
+	            var lang = this.props.lang;
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "goods" },
+	                context.context.map(function (item) {
+	                    return _react2.default.createElement(
+	                        "div",
+	                        { className: "brand", onClick: _this2.clickedLi.bind(_this2, 0, item.id) },
+	                        _react2.default.createElement("img", { className: "imageMenCollect", src: item.image }),
+	                        _react2.default.createElement(
+	                            "h2",
+	                            null,
+	                            "  ",
+	                            lang == "English" ? item.collectionNameEu : item.collectionNameRu
+	                        ),
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            " ",
+	                            lang == "English" ? item.infoEu : item.infoRu
+	                        ),
+	                        _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            " ",
+	                            lang == "English" ? 'Number of goods: ' + item.amount : 'Количество товаров: ' + item.amount
+	                        )
+	                    );
+	                })
+	            );
+	        }
+	    }, {
+	        key: "position",
+	        value: function position(index) {
+	            this.setState({
+	                position: index
+	            });
+	        }
+	    }, {
+	        key: "number",
+	        value: function number(index) {
+	            var number = this.state.number;
+	            var n = this.state.n;
+	            index == 1 ? (number = number + this.state.slots, n = n + 1) : (number = number - this.state.slots, n = n - 1);
+	            this.setState({
+	                number: number,
+	                n: n
+	            });
+	        }
+	    }, {
+	        key: "slots",
+	        value: function slots(n) {
+	            this.setState({
+	                slots: n
+	            });
+	        }
+	    }, {
+	        key: "sortHandler",
+	        value: function sortHandler(i) {
+	            this.setState({
+	                sort: i
+	            });
+	        }
+	    }, {
+	        key: "details",
+	        value: function details(id) {
+	            this.props.details(id);
+	        }
+	    }, {
+	        key: "deleteProduct",
+	        value: function deleteProduct(i) {
+	            this.props.deleteProduct(i);
+	        }
+	    }, {
+	        key: "save",
+	        value: function save(i) {
+	            var price = document.getElementById('priceProps').value;
+	            price == null ? price = this.props.context.context.price.priceEu : price = parseInt(document.getElementById('priceProps').value);
+
+	            var amount = document.getElementById('amountProps').value;
+	            amount == null ? amount = this.props.context.context.amount : amount = parseInt(document.getElementById('amountProps').value);
+
+	            var image = document.getElementById('imageProps').value;
+	            image == null ? image = this.props.context.context.image : '';
+
+	            var prod = {
+	                id: this.props.context.context.id,
+	                color: document.getElementById('colorSelect').value,
+	                collection: document.getElementById('collectionSelect').value,
+	                size: document.getElementById('sizeSelect').value,
+	                shoes: {
+	                    nameEu: document.getElementById('nameProps').value,
+	                    nameRu: document.getElementById('nameProps').value,
+	                    amount: amount,
+	                    price: {
+	                        idShoes: this.props.context.context.id,
+	                        priceEu: price,
+	                        priceRu: price
+	                    },
+	                    idBrand: document.getElementById('brandSelect').value,
+	                    idMaterial: document.getElementById('materialSelect').value,
+	                    image: image
+	                }
+	            };
+	            if (i == 1) {
+	                this.props.updateProduct(prod);
+	            } else {
+	                this.props.createProduct(prod);
+	            }
+	        }
+	    }, {
+	        key: "updateProduct",
+	        value: function updateProduct() {
+	            if (this.state.focusInput == 0) {
+	                this.getMaterialList();
+	                this.getColorList();
+	                this.getCollectionList();
+	                this.getSizeList();
+	                this.getBrandList();
+	                this.setState({
+	                    focusInput: 1
+	                });
+	            } else {
+	                this.setState({
+	                    focusInput: 0
+	                });
+	            }
+	        }
+	    }, {
+	        key: "getMaterialList",
+	        value: function getMaterialList() {
+	            var _this3 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/material").then(function (response) {
+	                _this3.setState({
+	                    materialList: response
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "getColorList",
+	        value: function getColorList() {
+	            var _this4 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/color").then(function (response) {
+	                _this4.setState({
+	                    colorList: response
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "getCollectionList",
+	        value: function getCollectionList() {
+	            var _this5 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/menCollection").then(function (response) {
+	                _this5.setState({
+	                    collectionList: response
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "getSizeList",
+	        value: function getSizeList() {
+	            var _this6 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/size").then(function (response) {
+	                _this6.setState({
+	                    sizeList: response
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "getBrandList",
+	        value: function getBrandList() {
+	            var _this7 = this;
+
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://localhost:8080/PeopleShoesRest_war/brand").then(function (response) {
+	                _this7.setState({
+	                    brandList: response
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "onClickBind",
+	        value: function onClickBind(id, i) {
+	            document.getElementById(id).value = i;
+	        }
+	    }, {
+	        key: "createSlot",
+	        value: function createSlot() {
+	            var _this8 = this;
+
+	            var styleInput = { visibility: "visible", height: '20px', marginBottom: '10px' };
+	            var lang = this.props.lang;
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "details" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "infoDetails" },
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Name : ' : 'Наименование: ',
+	                        _react2.default.createElement("input", { style: styleInput, type: "text", id: "nameProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Brand : ' : 'Бренд: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "brandSelect" },
+	                            this.state.brandList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'brandSelect', item.id) },
+	                                    item.name
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Price : ' : 'Цена: ',
+	                        _react2.default.createElement("input", { style: styleInput, type: "text", id: "priceProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        " ",
+	                        lang == "English" ? 'Color : ' : "Цвета : ",
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "colorSelect" },
+	                            this.state.colorList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id,
+	                                        onClick: _this8.onClickBind.bind(_this8, 'colorSelect', item.id) },
+	                                    " ",
+	                                    lang == "English" ? item.nameEu : item.nameRu
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Material : ' : 'Материал: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "materialSelect" },
+	                            this.state.materialList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'materialSelect', item.id) },
+	                                    lang == "English" ? item.nameEu : item.nameRu
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Amount : ' : 'Количество: ',
+	                        _react2.default.createElement("input", { style: styleInput, type: "text", id: "amountProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Image : ' : 'Картинка: ',
+	                        _react2.default.createElement("input", { style: styleInput, type: "text", id: "imageProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Collection : ' : 'Коллекции: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "collectionSelect" },
+	                            this.state.collectionList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'collectionSelect', item.id) },
+	                                    lang == "English" ? item.collectionNameEu : item.collectionNameRu
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Size : ' : 'Размеры: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "sizeSelect" },
+	                            this.state.sizeList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id,
+	                                        onClick: _this8.onClickBind.bind(_this8, 'sizeSelect', item.id) },
+	                                    item.sizeEU
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "addProduct" },
+	                        _react2.default.createElement(
+	                            "button",
+	                            { onClick: this.save.bind(this, 2) },
+	                            lang == "English" ? 'Create' : 'Создать'
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: "slot",
+	        value: function slot() {
+	            var _this9 = this;
+
+	            var context = this.props.context.context;
+	            var styleInput = void 0;
+	            this.state.focusInput == 0 ? styleInput = { visibility: "hidden", height: '0px' } : styleInput = { visibility: "visible", height: '20px', marginBottom: '10px' };
+	            var lang = this.props.lang;
+	            var money = this.props.money;
+	            var price = void 0;
+	            money == 0 ? price = context.price.priceEu + " $" : price = context.price.priceRu + " ₽";
+	            var role = this.props.user.role;
+	            var flag = true;
+	            var removeIndex = void 0;
+	            this.props.user.product.map(function (item, index) {
+	                if (item.id == context.id) {
+	                    flag = false;
+	                    removeIndex = item.id;
+	                }
+	            });
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "details" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "l" },
+	                    _react2.default.createElement("img", { src: context.image }),
+	                    role == "ROLE_ADMIN" ? _react2.default.createElement(
+	                        "div",
+	                        { style: { display: "inline-flex" } },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "deleteProduct" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { onClick: this.deleteProduct.bind(this, context.id) },
+	                                lang == "English" ? 'Delete ' : 'Удалить'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "addProduct" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { onClick: this.updateProduct.bind(this) },
+	                                lang == "English" ? 'Update' : 'Обновить'
+	                            )
+	                        ),
+	                        this.state.focusInput == 1 ? _react2.default.createElement(
+	                            "div",
+	                            { className: "addProduct" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { onClick: this.save.bind(this, 1) },
+	                                lang == "English" ? 'Save' : 'Сохранить'
+	                            )
+	                        ) : ''
+	                    ) : flag == true ? _react2.default.createElement(
+	                        "div",
+	                        { className: "addProduct" },
+	                        _react2.default.createElement(
+	                            "button",
+	                            { onClick: this.add.bind(this, context) },
+	                            lang == "English" ? 'Add to cart' : 'Добавить в корзину'
+	                        )
+	                    ) : _react2.default.createElement(
+	                        "div",
+	                        { className: "deleteProduct" },
+	                        _react2.default.createElement(
+	                            "button",
+	                            { onClick: this.remove.bind(this, removeIndex) },
+	                            lang == "English" ? 'Remove from cart' : 'Убрать из корзины'
+	                        )
+	                    )
+	                ),
+	                this.state.focusInput == 0 ? _react2.default.createElement(
+	                    "div",
+	                    { className: "infoDetails" },
+	                    lang == "English" ? _react2.default.createElement(
+	                        "h2",
+	                        { className: "nameDetails" },
+	                        context.nameEu
+	                    ) : _react2.default.createElement(
+	                        "h2",
+	                        { className: "nameDetails" },
+	                        context.nameRu
+	                    ),
+	                    _react2.default.createElement("img", { src: context.brand.logo }),
+	                    lang == "English" ? _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        "Price: ",
+	                        price
+	                    ) : _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        "\u0426\u0435\u043D\u0430: ",
+	                        price
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        " ",
+	                        lang == "English" ? 'Color : ' : "Цвета : ",
+	                        context.colorList.map(function (item) {
+	                            return lang == "English" ? item.nameEu + ' ' : item.nameRu + " ";
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Material: ' + context.material.nameEu : 'Материал: ' + context.material.nameRu
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Amount: ' + context.amount : 'Количество товаров: ' + context.amount
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Collection : ' : 'Коллекции: ',
+	                        context.menCollections.map(function (item) {
+	                            return lang == "English" ? item.collectionNameEu + ' ' : item.collectionNameRu + ' ';
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Size : ' : 'Размеры: ',
+	                        context.sizes.map(function (item) {
+	                            return lang == "English" ? item.sizeEU + ' ' : item.sizeEU + ' ';
+	                        })
+	                    )
+	                ) : _react2.default.createElement(
+	                    "div",
+	                    { className: "infoDetails" },
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Name : ' : 'Наименование: ',
+	                        _react2.default.createElement("input", { style: styleInput, defaultValue: context.nameEu, type: "text", id: "nameProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Brand : ' : 'Бренд: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "brandSelect", defaultValue: context.idBrand },
+	                            this.state.brandList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'brandSelect', item.id) },
+	                                    item.name
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Price : ' : 'Цена: ',
+	                        _react2.default.createElement("input", { style: styleInput, defaultValue: price, type: "text", id: "priceProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        " ",
+	                        lang == "English" ? 'Color : ' : "Цвета : ",
+	                        context.colorList.map(function (item) {
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "colorSelect", defaultValue: item.id },
+	                                _this9.state.colorList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id,
+	                                            onClick: _this9.onClickBind.bind(_this9, 'colorSelect', item.id) },
+	                                        " ",
+	                                        lang == "English" ? item.nameEu : item.nameRu
+	                                    );
+	                                })
+	                            );
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Material : ' : 'Материал: ',
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "materialSelect", defaultValue: context.idMaterial },
+	                            this.state.materialList.map(function (item) {
+	                                return _react2.default.createElement(
+	                                    "option",
+	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'materialSelect', item.id) },
+	                                    lang == "English" ? item.nameEu : item.nameRu
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Amount : ' : 'Количество: ',
+	                        _react2.default.createElement("input", { style: styleInput, defaultValue: context.amount, type: "text", id: "amountProps" })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Collection : ' : 'Коллекции: ',
+	                        context.menCollections.map(function (item) {
+
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "collectionSelect", defaultValue: item.id },
+	                                _this9.state.collectionList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'collectionSelect', item.id) },
+	                                        lang == "English" ? item.collectionNameEu : item.collectionNameRu
+	                                    );
+	                                })
+	                            );
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        lang == "English" ? 'Size : ' : 'Размеры: ',
+	                        context.sizes.map(function (item) {
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "sizeSelect", defaultValue: item.id },
+	                                _this9.state.sizeList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id,
+	                                            onClick: _this9.onClickBind.bind(_this9, 'sizeSelect', item.id) },
+	                                        item.sizeEU
+	                                    );
+	                                })
+	                            );
+	                        })
+	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: "add",
+	        value: function add(item) {
+	            this.props.user.login == '' ? this.props.profileVisibl() : this.props.addProductCart(item);
+	        }
+	    }, {
+	        key: "remove",
+	        value: function remove(i) {
+	            this.props.removeProductCart(i);
+	        }
+	    }, {
+	        key: "create",
+	        value: function create() {
+	            this.getMaterialList();
+	            this.getColorList();
+	            this.getCollectionList();
+	            this.getSizeList();
+	            this.getBrandList();
+	            this.setState({
+	                create: {
+	                    i: 1,
+	                    shoes: {}
+	                }
+	            });
+	        }
+	    }, {
+	        key: "shoes",
+	        value: function shoes() {
+	            var context = this.props.context;
+	            var kolPage = Math.ceil(context.context.length / this.state.slots);
+	            var arr = context.context.slice(this.state.number, this.state.number + this.state.slots);
+	            var sort = this.state.sort;
+	            if (sort == 0) {} else if (sort == 1) {
+	                arr.sort(function (a, b) {
+	                    return a.nameEu > b.nameEu;
+	                });
+	            } else if (sort == 2) {
+	                arr.sort(function (a, b) {
+	                    return a.nameEu < b.nameEu;
+	                });
+	            } else if (sort == 3) {
+	                arr.sort(function (a, b) {
+	                    return a.price.priceEu > b.price.priceEu;
+	                });
+	            } else if (sort == 4) {
+	                arr.sort(function (a, b) {
+	                    return a.price.priceEu < b.price.priceEu;
+	                });
+	            }
+
+	            var lang = this.props.lang;
+	            var money = this.props.money;
+	            var style = "slot";
+	            if (this.state.position == 1) {
+	                style = "slot listPosition";
+	            }
+	            var self = this;
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "goods" },
+	                _react2.default.createElement(_Panel2.default, { role: this.props.user.role, create: this.create.bind(this), sortHandler: this.sortHandler.bind(this), sort: this.state.sort, ks: this.state.slots, slots: this.slots.bind(this), position: this.state.position, n: this.state.n, kol: kolPage, onHandle: this.position.bind(this), number: this.number.bind(this) }),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "slots" },
+	                    arr.map(function (item, index) {
+	                        var price = void 0;
+	                        money == 0 ? price = item.price.priceEu : price = item.price.priceRu;
+	                        return _react2.default.createElement(
+	                            "div",
+	                            { className: style, onClick: self.details.bind(self, item.id) },
+	                            _react2.default.createElement(
+	                                "a",
+	                                { className: "as" },
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "slot-img" },
+	                                    _react2.default.createElement("img", { src: item.image })
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "slot-text" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            "h2",
+	                                            null,
+	                                            lang == "English" ? item.nameEu : item.nameRu
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            "h2",
+	                                            null,
+	                                            lang == "English" ? 'Price: ' + price : 'Цена: ' + price
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        );
+	                    })
+	                )
+	            );
+	        }
+	    }, {
+	        key: "clickedLi",
+	        value: function clickedLi(index, id) {
+	            this.props.onHandle2(index, id);
+	        }
+	    }, {
+	        key: "brand",
+	        value: function brand() {
+	            var _this10 = this;
+
+	            var context = this.props.context;
+	            var lang = this.props.lang;
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "goods" },
+	                context.context.map(function (item) {
+	                    return _react2.default.createElement(
+	                        "div",
+	                        { className: "brand", onClick: _this10.clickedLi.bind(_this10, 1, item.id) },
+	                        _react2.default.createElement("img", { src: item.logo }),
+	                        _react2.default.createElement(
+	                            "h2",
+	                            null,
+	                            item.name
+	                        ),
+	                        lang == "English" ? _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            item.infoEu
+	                        ) : _react2.default.createElement(
+	                            "h3",
+	                            null,
+	                            item.infoRu
+	                        )
+	                    );
+	                })
+	            );
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            if (this.state.create.i == 1) {
+	                return this.createSlot();
+	            } else {
+	                var context = this.props.context;
+	                return context.name == "Home" || context.name == "Главная" ? this.home() : context.name == "Men's collection" || context.name == "Мужская коллекция" ? this.mensCollection() : context.name == "Shoes" || context.name == "Обувь" ? this.shoes() : context.name == "Brand" || context.name == "Бренд" ? this.brand() : context.name == "details" ? this.slot() : '';
+	            }
+	        }
+	    }]);
+
+	    return Goods;
+	}(_react2.default.Component);
+
+	exports.default = Goods;
+
+/***/ },
+/* 193 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(177);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Panel = function (_React$Component) {
+	    _inherits(Panel, _React$Component);
+
+	    function Panel(props) {
+	        _classCallCheck(this, Panel);
+
+	        var _this = _possibleConstructorReturn(this, (Panel.__proto__ || Object.getPrototypeOf(Panel)).call(this));
+
+	        _this.state = {
+	            position: props.position,
+	            number: props.n,
+	            slots: props.ks,
+	            sort: props.sort
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Panel, [{
+	        key: "position",
+	        value: function position(index) {
+	            this.setState({
+	                position: index
+	            });
+	            this.props.onHandle(index);
+	        }
+	    }, {
+	        key: "number",
+	        value: function number(index) {
+
+	            var n = this.state.number;
+	            if (n == 1) {
+	                if (index == 1) {
+	                    n = n + 1;
+	                    this.setState({
+	                        number: n
+	                    });
+	                    this.props.number(index);
+	                }
+	            } else if (n == this.props.kol) {
+	                if (index == -1) {
+	                    n = n - 1;
+	                    this.setState({
+	                        number: n
+	                    });
+	                    this.props.number(index);
+	                }
+	            } else {
+	                index == 1 ? n = n + 1 : n = n - 1;
+	                this.setState({
+	                    number: n
+	                });
+	                this.props.number(index);
+	            }
+	        }
+	    }, {
+	        key: "nPage",
+	        value: function nPage(n) {
+	            this.number(n - this.state.number);
+	        }
+	    }, {
+	        key: "slots",
+	        value: function slots(n) {
+	            this.setState({
+	                slots: n
+	            });
+	            this.props.slots(n);
+	        }
+	    }, {
+	        key: "create",
+	        value: function create() {
+	            this.props.create();
+	        }
+	    }, {
+	        key: "sort",
+	        value: function sort(i) {
+	            this.setState({
+	                sort: i
+	            });
+	            this.props.sortHandler(i);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+
+	            var classLarge = void 0;
+	            var classList = void 0;
+	            var numbers = [this.state.number - 1, this.state.number, this.state.number + 1];
+	            this.state.position == 0 ? (classLarge = "grid", classList = "list") : (classLarge = "list", classList = "grid");
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "panel" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: classLarge, onClick: this.position.bind(this, 0) },
+	                    _react2.default.createElement("i", { className: "fa fa-th-large" })
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: classList, onClick: this.position.bind(this, 1) },
+	                    _react2.default.createElement("i", { className: "fa fa-th-list" })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "sort" },
+	                    _react2.default.createElement(
+	                        "select",
+	                        { className: "select" },
+	                        this.state.sort == 0 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true },
+	                            "Sort By: Default"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            null,
+	                            "Sort By: Default"
+	                        ),
+	                        this.state.sort == 1 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.sort.bind(this, 1) },
+	                            "Name (A-Z)"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.sort.bind(this, 1) },
+	                            "Name (A-Z)"
+	                        ),
+	                        this.state.sort == 2 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.sort.bind(this, 2) },
+	                            "Name (Z-A)"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.sort.bind(this, 2) },
+	                            "Name (Z-A)"
+	                        ),
+	                        this.state.sort == 3 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.sort.bind(this, 3) },
+	                            "Price (0-999)"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.sort.bind(this, 3) },
+	                            "Price (0-999)"
+	                        ),
+	                        this.state.sort == 4 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.sort.bind(this, 4) },
+	                            "Price (999-0)"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.sort.bind(this, 4) },
+	                            "Price (999-0)"
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "sort" },
+	                    _react2.default.createElement(
+	                        "select",
+	                        { className: "select" },
+	                        this.state.slots == 3 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.slots.bind(this, 3) },
+	                            "3"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.slots.bind(this, 3) },
+	                            "3"
+	                        ),
+	                        this.state.slots == 6 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.slots.bind(this, 6) },
+	                            "6"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.slots.bind(this, 6) },
+	                            "6"
+	                        ),
+	                        this.state.slots == 9 ? _react2.default.createElement(
+	                            "option",
+	                            { selected: true, onClick: this.slots.bind(this, 9) },
+	                            "9"
+	                        ) : _react2.default.createElement(
+	                            "option",
+	                            { onClick: this.slots.bind(this, 9) },
+	                            "9"
+	                        )
+	                    )
+	                ),
+	                this.props.role == "ROLE_ADMIN" ? _react2.default.createElement(
+	                    "div",
+	                    { className: "createProduct" },
+	                    _react2.default.createElement(
+	                        "button",
+	                        { onClick: this.create.bind(this) },
+	                        "Create Shoes"
+	                    )
+	                ) : "",
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "pager" },
+	                    _react2.default.createElement(
+	                        "ul",
+	                        null,
+	                        _react2.default.createElement(
+	                            "li",
+	                            null,
+	                            _react2.default.createElement(
+	                                "a",
+	                                { className: "lr number", onClick: this.number.bind(this, -1) },
+	                                _react2.default.createElement("i", { className: "fa fa-angle-left" })
+	                            )
+	                        ),
+	                        numbers.map(function (item, index) {
+	                            var c = void 0;
+	                            var click = void 0;
+	                            index == 1 ? (c = 'focus', click = "") : (c = 'number', click = _this2.nPage.bind(_this2, item));
+	                            if (item > 0 && item <= _this2.props.kol) {
+	                                return _react2.default.createElement(
+	                                    "li",
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        "a",
+	                                        { className: c, onClick: click },
+	                                        item
+	                                    )
+	                                );
+	                            }
+	                        }),
+	                        _react2.default.createElement(
+	                            "li",
+	                            null,
+	                            _react2.default.createElement(
+	                                "a",
+	                                { className: "lr number", onClick: this.number.bind(this, 1) },
+	                                _react2.default.createElement("i", { className: "fa fa-angle-right" })
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Panel;
+	}(_react2.default.Component);
+
+	exports.default = Panel;
+
+/***/ },
+/* 194 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Xhr = function () {
+	    function Xhr(opts) {
+	        _classCallCheck(this, Xhr);
+
+	        this.events = {
+	            READY_STATE_CHANGE: 'readystatechange',
+	            LOAD_START: 'loadstart',
+	            PROGRESS: 'progress',
+	            ABORT: 'abort',
+	            ERROR: 'error',
+	            LOAD: 'load',
+	            TIMEOUT: 'timeout',
+	            LOAD_END: 'loadend'
+	        };
+	        this.opts = opts;
+	    }
+
+	    _createClass(Xhr, [{
+	        key: 'send',
+	        value: function send(url, method, data) {
+	            var _this = this;
+
+	            return new Promise(function (resolve, reject) {
+	                var xhr = new XMLHttpRequest();
+	                var m = method || 'GET';
+	                xhr.open(m, url);
+	                xhr.setRequestHeader('Content-Type', _this.opts.contentType || 'application/json');
+	                if (_this.opts.headers) {
+	                    for (var name in _this.opts.headers) {
+	                        var value = _this.opts.headers[name];
+	                        xhr.setRequestHeader(name, value);
+	                    }
+	                }
+	                if (_this.opts.withCredentials) xhr.withCredentials = true;
+	                data = data ? _this.parseData(data) : null;
+
+	                xhr.addEventListener(_this.events.LOAD, function () {
+	                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 0) {
+	                        var responseText = '';
+	                        if (xhr.responseText) {
+	                            responseText = _this.opts.json ? JSON.parse(xhr.responseText) : xhr.responseText;
+	                        }
+	                        resolve(responseText, xhr);
+	                    } else {
+	                        reject(_this.reject(xhr));
+	                    }
+	                });
+
+	                xhr.addEventListener(_this.events.ABORT, function () {
+	                    return reject(_this.reject(xhr));
+	                });
+	                xhr.addEventListener(_this.events.ERROR, function () {
+	                    return reject(_this.reject(xhr));
+	                });
+	                xhr.addEventListener(_this.events.TIMEOUT, function () {
+	                    return reject(_this.reject(xhr));
+	                });
+
+	                data ? xhr.send(data) : xhr.send();
+	            });
+	        }
+	    }, {
+	        key: 'reject',
+	        value: function reject(xhr) {
+	            var responseText = '';
+	            if (xhr.responseText) {
+	                responseText = this.opts.json ? JSON.parse(xhr.responseText) : xhr.responseText;
+	            }
+	            return responseText;
+	        }
+	    }, {
+	        key: 'parseData',
+	        value: function parseData(data) {
+	            if (this.opts.contentType == 'application/json') return JSON.stringify(data);
+	            var query = [];
+	            if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)).toLowerCase() == 'string' || (typeof data === 'undefined' ? 'undefined' : _typeof(data)).toLowerCase() == 'number') {
+	                query.push(data);
+	            } else {
+	                for (var key in data) {
+	                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+	                }
+	            }
+	            return query.join('&');
+	        }
+	    }, {
+	        key: 'get',
+	        value: function get(url) {
+	            return this.send(url);
+	        }
+	    }, {
+	        key: 'post',
+	        value: function post(url, data) {
+	            return this.send(url, 'POST', data);
+	        }
+	    }, {
+	        key: 'delete',
+	        value: function _delete(url) {
+	            return this.send(url, 'DELETE');
+	        }
+	    }, {
+	        key: 'put',
+	        value: function put(url, data) {
+	            return this.send(url, 'PUT', data);
+	        }
+	    }]);
+
+	    return Xhr;
+	}();
+
+	exports.default = Xhr;
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(177);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Popup = function (_React$Component) {
+	    _inherits(Popup, _React$Component);
+
+	    function Popup() {
+	        _classCallCheck(this, Popup);
+
+	        var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this));
+
+	        _this.state = {
+	            focus: 0,
+	            message: '',
+	            focus2: 0
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Popup, [{
+	        key: 'close',
+	        value: function close() {
+	            this.setState({
+	                focus: 0,
+	                focus2: 0
+	            });
+	            this.props.hid();
+	        }
+	    }, {
+	        key: 'logIn',
+	        value: function logIn() {
+	            if (this.valid(document.getElementById('login').value, document.getElementById('password').value)) this.props.log(document.getElementById('login').value, document.getElementById('password').value);
+	        }
+	    }, {
+	        key: 'singUp',
+	        value: function singUp() {
+	            if (this.valid(document.getElementById('login').value, document.getElementById('password').value)) this.props.sing(document.getElementById('login').value, document.getElementById('password').value);
+	        }
+	    }, {
+	        key: 'exit',
+	        value: function exit() {
+	            this.props.exit();
+	        }
+	    }, {
+	        key: 'valid',
+	        value: function valid(log, pass) {
+	            var lang = this.props.lang;
+	            if (log.length < 4 || log.length > 12) {
+	                this.setState({
+	                    message: lang == "English" ? 'Логин не менее 4 и не более 12 символов' : 'Логин не менее 4 и не более 12 символов'
+	                });
+	                return false;
+	            }if (pass.length < 4 || pass.length > 12) {
+	                this.setState({
+	                    message: lang == "English" ? 'Пароль не менее 4 и не более 12 символов' : 'Пароль не менее 4 и не более 12 символов'
+	                });
+	                return false;
+	            } else {
+	                this.setState({
+	                    message: ''
+	                });
+	                return true;
+	            }
+	        }
+	    }, {
+	        key: 'updateProfile',
+	        value: function updateProfile() {
+	            this.state.focus2 == 0 ? this.setState({
+	                focus2: 1
+	            }) : this.setState({
+	                focus2: 0
+	            });
+	        }
+	    }, {
+	        key: 'putProfile',
+	        value: function putProfile() {
+	            this.props.update(document.getElementById('newPassword').value);
+	            this.close();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var lang = this.props.lang;
+	            var style = void 0;
+	            this.props.focus == 0 ? style = { visibility: 'hidden' } : style = { visibility: 'visible' };
+	            var message = void 0;
+	            this.state.message == '' ? message = this.props.message : message = this.state.message;
+
+	            if (this.props.user == '') {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { style: style, className: 'popup', id: 'popup2' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'popup-content' },
+	                        lang == "English" ? "Log into account" + this.props.user : "Войти: " + this.props.user,
+	                        _react2.default.createElement('input', { type: 'text', id: 'login', placeholder: lang == "English" ? "Login" : "Логин" }),
+	                        _react2.default.createElement('input', { type: 'password', id: 'password', placeholder: lang == "English" ? "Password" : "Пароль" }),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', id: 'login', onClick: this.logIn.bind(this) },
+	                            lang == "English" ? "Log in" : "Войти"
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', id: 'SingUp', onClick: this.singUp.bind(this) },
+	                            lang == "English" ? "Sing up" : "Зарегистрироваться"
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', onClick: this.close.bind(this) },
+	                            '   ',
+	                            lang == "English" ? "Close" : "Закрыть"
+	                        ),
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            message
+	                        )
+	                    )
+	                );
+	            } else {
+	                var style2 = void 0;
+	                this.state.focus2 == 0 ? style2 = { visibility: 'hidden', height: '0px' } : style2 = { visibility: 'visible' };
+	                return _react2.default.createElement(
+	                    'div',
+	                    { style: style, className: 'popup', id: 'popup2' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'popup-content' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            lang == "English" ? "You are signed in account: " + this.props.user : "Вы вошли под аккаунтом: " + this.props.user
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', onClick: this.exit.bind(this) },
+	                            lang == "English" ? "Exit" : "Выйти"
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', onClick: this.updateProfile.bind(this) },
+	                            lang == "English" ? "Change Pass" : "Изменить пароль"
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: style2 },
+	                            _react2.default.createElement('input', { type: 'password', id: 'newPassword', placeholder: lang == "English" ? "newPassword" : "newПароль" }),
+	                            _react2.default.createElement(
+	                                'button',
+	                                { type: 'submit', onClick: this.putProfile.bind(this) },
+	                                lang == "English" ? "Ok" : "Ok"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'submit', onClick: this.close.bind(this) },
+	                            ' ',
+	                            lang == "English" ? "Close" : "Закрыть"
+	                        )
+	                    )
+	                );
+	            }
+	        }
+	    }]);
+
+	    return Popup;
+	}(_react2.default.Component);
+
+	exports.default = Popup;
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(177);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Popup = function (_React$Component) {
+	    _inherits(Popup, _React$Component);
+
+	    function Popup(props) {
+	        _classCallCheck(this, Popup);
+
+	        var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this));
+
+	        _this.state = {
+	            focus: 0,
+	            product: props.product
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Popup, [{
+	        key: 'close',
+	        value: function close() {
+	            this.setState({
+	                focus: 0
+	            });
+	            this.props.hid();
+	        }
+	    }, {
+	        key: 'pay',
+	        value: function pay() {}
+	    }, {
+	        key: 'removeProductCart',
+	        value: function removeProductCart(i) {
+	            this.props.removeProductCart(i);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var lang = this.props.lang;
+	            var style = void 0;
+	            this.props.focus == 0 ? style = { visibility: 'hidden' } : style = { visibility: 'visible' };
+	            var fullPriceEu = 0;
+	            var fullPriceRu = 0;
+	            return _react2.default.createElement(
+	                'div',
+	                { style: style, className: 'popup', id: 'popup2' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'popup-content-cart' },
+	                    _react2.default.createElement(
+	                        'table',
+	                        { className: 'tableCart' },
+	                        _react2.default.createElement(
+	                            'tr',
+	                            null,
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                '\u2116'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                lang == "English" ? 'Name' : 'Наименование'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                lang == "English" ? 'Price $/₽' : 'Стоймость $/₽'
+	                            )
+	                        ),
+	                        this.props.product.map(function (item, index) {
+	                            fullPriceEu = fullPriceEu + item.price.priceEu;
+	                            fullPriceRu = fullPriceRu + item.price.priceRu;
+	                            return _react2.default.createElement(
+	                                'tr',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'td',
+	                                    null,
+	                                    index
+	                                ),
+	                                _react2.default.createElement(
+	                                    'td',
+	                                    null,
+	                                    lang == "English" ? item.nameEu : item.nameRu
+	                                ),
+	                                _react2.default.createElement(
+	                                    'td',
+	                                    null,
+	                                    item.price.priceEu,
+	                                    ' / ',
+	                                    item.price.priceRu
+	                                ),
+	                                _react2.default.createElement(
+	                                    'td',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { type: 'submit', id: 'remove', onClick: _this2.removeProductCart.bind(_this2, item.id) },
+	                                        lang == "English" ? "Remove" : "Убрать"
+	                                    )
+	                                )
+	                            );
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { type: 'submit', id: 'pay', onClick: this.pay.bind(this) },
+	                        lang == "English" ? 'Pay' : 'Оплатить'
+	                    ),
+	                    lang == "English" ? " Full price: " + fullPriceEu + '/' + fullPriceRu : " Суммарная стоймость: " + fullPriceEu + '/' + fullPriceRu,
+	                    _react2.default.createElement(
+	                        'button',
+	                        { type: 'submit', id: 'close', onClick: this.close.bind(this) },
+	                        lang == "English" ? 'Close' : 'Закрыть'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Popup;
+	}(_react2.default.Component);
+
+	exports.default = Popup;
 
 /***/ }
 /******/ ]);
