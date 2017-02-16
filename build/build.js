@@ -21606,17 +21606,21 @@
 
 	var _Goods2 = _interopRequireDefault(_Goods);
 
-	var _PopupAuthoriz = __webpack_require__(195);
+	var _PopupAuthoriz = __webpack_require__(196);
 
 	var _PopupAuthoriz2 = _interopRequireDefault(_PopupAuthoriz);
 
-	var _PopupCart = __webpack_require__(196);
+	var _PopupCart = __webpack_require__(197);
 
 	var _PopupCart2 = _interopRequireDefault(_PopupCart);
 
-	var _xhr = __webpack_require__(194);
+	var _xhr = __webpack_require__(195);
 
 	var _xhr2 = _interopRequireDefault(_xhr);
+
+	var _cookie = __webpack_require__(194);
+
+	var _cookie2 = _interopRequireDefault(_cookie);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21635,14 +21639,13 @@
 	        var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this));
 
 	        _this.state = {
+	            nPage: 0,
+	            size: 6,
 	            popup: 0,
 	            popup2: 0,
 	            user: {
 	                login: '',
 	                password: '',
-	                role: '',
-	                access_token: '',
-	                refresh_token: '',
 	                product: []
 	            },
 	            errorMessage: '',
@@ -21834,17 +21837,44 @@
 	            }
 	        }
 	    }, {
-	        key: "menuHandle",
-	        value: function menuHandle(index) {
+	        key: "shoesPage",
+	        value: function shoesPage(p) {
 	            var _this2 = this;
 
-	            if (index > 0) {
+	            var xhr = new _xhr2.default({ json: true });
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?page=" + p + "&size=" + this.state.size).then(function (response) {
+	                if (response == '') {} else {
+	                    var c = _this2.state.menu;
+	                    c[2].context = response;
+	                    _this2.setState({
+	                        nPage: p,
+	                        main: {
+	                            name: c[2].name,
+	                            context: c[2].context
+	                        },
+	                        menu: c,
+	                        index: 2,
+	                        details: ''
+	                    });
+	                }
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "menuHandle",
+	        value: function menuHandle(index) {
+	            var _this3 = this;
+
+	            if (index == 2) {
+	                this.shoesPage(this.state.nPage);
+	            } else if (index > 0) {
 	                var uri = this.state.menu[index].uri;
 	                var xhr = new _xhr2.default({ json: true });
-	                xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
-	                    var c = _this2.state.menu;
+	                xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	                    var c = _this3.state.menu;
 	                    c[index].context = response;
-	                    _this2.setState({
+	                    _this3.setState({
 	                        main: {
 	                            name: c[index].name,
 	                            context: c[index].context
@@ -21877,19 +21907,19 @@
 	    }, {
 	        key: "requestFilter",
 	        value: function requestFilter(uri) {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/" + uri).then(function (response) {
 	                var r = void 0;
 	                if (response.shoesList == null) {
 	                    r = response;
 	                } else {
 	                    r = response.shoesList;
 	                }
-	                var c = _this3.state.menu;
+	                var c = _this4.state.menu;
 	                c[2].context = r;
-	                _this3.setState({
+	                _this4.setState({
 	                    main: {
 	                        name: c[2].name,
 	                        context: c[2].context
@@ -21920,7 +21950,7 @@
 	    }, {
 	        key: "filterColor",
 	        value: function filterColor(color) {
-	            this.requestFilter("getColor?id=" + color);
+	            this.requestFilter("color?id=" + color);
 	            this.setState({
 	                details: 'Color Filter'
 	            });
@@ -21928,15 +21958,15 @@
 	    }, {
 	        key: "requestGetList",
 	        value: function requestGetList(index) {
-	            var _this4 = this;
+	            var _this5 = this;
 
 	            var uri = this.state.categories[index].uri;
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then(function (response) {
-	                var c = _this4.state.categories;
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/" + uri).then(function (response) {
+	                var c = _this5.state.categories;
 	                c[index].li = response;
 	                c[index].focused = 1;
-	                _this4.setState({
+	                _this5.setState({
 	                    categories: c
 	                });
 	            }, function (error) {
@@ -21946,16 +21976,16 @@
 	    }, {
 	        key: "requestGet",
 	        value: function requestGet(index, id) {
-	            var _this5 = this;
+	            var _this6 = this;
 
 	            var uri = this.state.categories[index].uri;
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri + "?id=" + id).then(function (response) {
-	                var c = _this5.state.menu;
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/" + uri + "?id=" + id).then(function (response) {
+	                var c = _this6.state.menu;
 	                c[2].context = response.shoesList;
 	                var name = void 0;
 	                index == 0 ? name = response.collectionNameEu : index == 1 ? name = response.name : index == 2 ? name = response.nameEu : '';
-	                _this5.setState({
+	                _this6.setState({
 	                    main: {
 	                        name: c[2].name,
 	                        context: c[2].context
@@ -21971,11 +22001,11 @@
 	    }, {
 	        key: "details",
 	        value: function details(id) {
-	            var _this6 = this;
+	            var _this7 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + id).then(function (response) {
-	                _this6.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id=" + id).then(function (response) {
+	                _this7.setState({
 	                    main: {
 	                        name: 'details',
 	                        context: response
@@ -22015,9 +22045,31 @@
 	            });
 	        }
 	    }, {
+	        key: "refreshToken",
+	        value: function refreshToken() {
+	            var c = new _cookie2.default();
+	            if (c.getCookie('refresh_token') == undefined) {
+	                this.exit();
+	            } else {
+	                var xhr = new _xhr2.default({
+	                    json: true,
+	                    contentType: "application/json",
+	                    headers: {
+	                        Accept: "application/json",
+	                        Authorization: 'Basic ' + btoa("client:secret") }
+	                });
+	                xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/oauth/token?grant_type=refresh_token&refresh_token=" + c.getCookie('refresh_token'), null).then(function (response) {
+	                    var option = { expires: 1200 };
+	                    c.setCookie('access_token', response.access_token, option);
+	                }, function (error) {
+	                    console.log(error);
+	                });
+	            }
+	        }
+	    }, {
 	        key: "logIn",
 	        value: function logIn(log, pass) {
-	            var _this7 = this;
+	            var _this8 = this;
 
 	            var xhr = new _xhr2.default({
 	                json: true,
@@ -22026,50 +22078,67 @@
 	                    Accept: "application/json",
 	                    Authorization: 'Basic ' + btoa("client:secret") }
 	            });
-	            xhr.post("http://localhost:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username=" + log + "&password=" + pass, null).then(function (response) {
+	            xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username=" + log + "&password=" + pass, null).then(function (response) {
+	                var c = new _cookie2.default();
+	                var option = { expires: 1200 };
 	                var access_token = response.access_token;
 	                var refresh_token = response.refresh_token;
+	                c.setCookie('access_token', access_token, option);
+	                option = { expires: 6000 };
+	                c.setCookie('refresh_token', refresh_token, option);
+
 	                var xhr = new _xhr2.default({
 	                    json: false,
 	                    contentType: "application/json"
 	                });
-	                xhr.get("http://localhost:8080/PeopleShoesRest_war/role?access_token=" + access_token).then(function (response) {
+	                xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/role?access_token=" + access_token).then(function (response) {
 	                    var role = response;
+	                    c.setCookie('role', role, option);
+
 	                    var xhr = new _xhr2.default({
 	                        json: true,
 	                        contentType: "application/json"
 	                    });
-	                    xhr.get("http://localhost:8080/PeopleShoesRest_war/cart?access_token=" + access_token).then(function (response) {
-	                        var product = [];
-	                        response.map(function (item) {
-	                            product.push(item.shoes);
+	                    if (role == 'ROLE_USER') {
+	                        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/cart?access_token=" + access_token).then(function (response) {
+	                            var product = [];
+	                            response.map(function (item) {
+	                                product.push(item.shoes);
+	                            });
+	                            _this8.setState({
+	                                user: {
+	                                    login: log,
+	                                    password: pass,
+	                                    product: product
+	                                },
+	                                popup: 0,
+	                                errorMessage: ''
+	                            });
+	                        }, function (error) {
+	                            console.log(error);
+	                            _this8.setState({
+	                                errorMessage: error
+	                            });
 	                        });
-	                        _this7.setState({
+	                    } else {
+	                        _this8.setState({
 	                            user: {
 	                                login: log,
 	                                password: pass,
-	                                role: role,
-	                                access_token: access_token,
-	                                refresh_token: refresh_token,
-	                                product: product
+	                                product: []
 	                            },
 	                            popup: 0,
 	                            errorMessage: ''
 	                        });
-	                    }, function (error) {
-	                        console.log(error);
-	                        _this7.setState({
-	                            errorMessage: error
-	                        });
-	                    });
+	                    }
 	                }, function (error) {
 	                    console.log(error);
-	                    _this7.setState({
+	                    _this8.setState({
 	                        errorMessage: error
 	                    });
 	                });
 	            }, function (error) {
-	                _this7.setState({
+	                _this8.setState({
 	                    errorMessage: error.error_description
 	                });
 	            });
@@ -22077,43 +22146,6 @@
 	    }, {
 	        key: "singUp",
 	        value: function singUp(log, pass) {
-	            var _this8 = this;
-
-	            var xhr = new _xhr2.default({
-	                json: true,
-	                contentType: "application/json",
-	                headers: {
-	                    Accept: "application/json"
-	                }
-	            });
-	            var body = { username: log, password: pass };
-	            xhr.post("http://localhost:8080/PeopleShoesRest_war/users", body).then(function (response) {
-	                _this8.logIn(log, pass);
-	            }, function (error) {
-	                console.log(error);
-	                _this8.setState({
-	                    errorMessage: "Conflict: Аккаун с таким именем уже существует"
-	                });
-	            });
-	        }
-	    }, {
-	        key: "exit",
-	        value: function exit() {
-	            this.setState({
-	                user: {
-	                    login: '',
-	                    password: '',
-	                    role: '',
-	                    access_token: '',
-	                    refresh_token: '',
-	                    product: []
-	                },
-	                popup: 0
-	            });
-	        }
-	    }, {
-	        key: "addProductCart",
-	        value: function addProductCart(item) {
 	            var _this9 = this;
 
 	            var xhr = new _xhr2.default({
@@ -22123,20 +22155,35 @@
 	                    Accept: "application/json"
 	                }
 	            });
-	            var user = this.state.user;
-	            var body = { username: user.login, idShoes: item.id };
-	            xhr.post("http://localhost:8080/PeopleShoesRest_war/cart?access_token=" + user.access_token, body).then(function (response) {
-	                user.product.push(item);
-	                _this9.setState({
-	                    user: user
-	                });
+	            var body = { username: log, password: pass };
+	            xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/users", body).then(function (response) {
+	                _this9.logIn(log, pass);
 	            }, function (error) {
 	                console.log(error);
+	                _this9.setState({
+	                    errorMessage: "Conflict: Аккаун с таким именем уже существует"
+	                });
 	            });
 	        }
 	    }, {
-	        key: "removeProductCart",
-	        value: function removeProductCart(id) {
+	        key: "exit",
+	        value: function exit() {
+	            var c = new _cookie2.default();
+	            c.deleteCookie('access_token');
+	            c.deleteCookie('refresh_token');
+	            c.deleteCookie('role');
+	            this.setState({
+	                user: {
+	                    login: '',
+	                    password: '',
+	                    product: []
+	                },
+	                popup: 0
+	            });
+	        }
+	    }, {
+	        key: "addProductCart",
+	        value: function addProductCart(item) {
 	            var _this10 = this;
 
 	            var xhr = new _xhr2.default({
@@ -22147,11 +22194,40 @@
 	                }
 	            });
 	            var user = this.state.user;
-	            xhr.delete("http://localhost:8080/PeopleShoesRest_war/cart?id=" + id + "&access_token=" + user.access_token).then(function (response) {
+	            var body = { username: user.login, idShoes: item.id };
+	            var c = new _cookie2.default();
+
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+
+	            xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/cart?access_token=" + c.getCookie('access_token'), body).then(function (response) {
+	                user.product.push(item);
+	                _this10.setState({
+	                    user: user
+	                });
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "removeProductCart",
+	        value: function removeProductCart(id) {
+	            var _this11 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var user = this.state.user;
+	            var c = new _cookie2.default();
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+	            xhr.delete("http://192.168.100.5:8080/PeopleShoesRest_war/cart?id=" + id + "&access_token=" + c.getCookie('access_token')).then(function (response) {
 	                for (var i = 0; i < user.product.length; i++) {
 	                    user.product[i].id == id ? i == 0 ? user.product.shift() : user.product.pop() ? user.product.splice(i, 1) : '' : '';
 	                }
-	                _this10.setState({
+	                _this11.setState({
 	                    user: user
 	                });
 	            }, function (error) {
@@ -22170,7 +22246,9 @@
 	            });
 	            var user = this.state.user;
 	            var body = { username: user.login, password: newPass, enabled: 1 };
-	            xhr.put("http://localhost:8080/PeopleShoesRest_war/users?access_token=" + user.access_token, body).then(function (response) {
+	            var c = new _cookie2.default();
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+	            xhr.put("http://192.168.100.5:8080/PeopleShoesRest_war/users?access_token=" + c.getCookie('access_token'), body).then(function (response) {
 	                console.log(response);
 	            }, function (error) {
 	                console.log(error);
@@ -22179,26 +22257,6 @@
 	    }, {
 	        key: "createProduct",
 	        value: function createProduct(i) {
-	            var _this11 = this;
-
-	            var xhr = new _xhr2.default({
-	                json: true,
-	                contentType: "application/json",
-	                headers: {
-	                    Accept: "application/json"
-	                }
-	            });
-	            var user = this.state.user;
-	            xhr.post("http://localhost:8080/PeopleShoesRest_war/shoes?access_token=" + user.access_token, i.shoes).then(function (response) {
-	                console.log(response);
-	                _this11.menuHandle(2);
-	            }, function (error) {
-	                console.log(error);
-	            });
-	        }
-	    }, {
-	        key: "updateProduct",
-	        value: function updateProduct(i) {
 	            var _this12 = this;
 
 	            var xhr = new _xhr2.default({
@@ -22208,17 +22266,17 @@
 	                    Accept: "application/json"
 	                }
 	            });
-	            var user = this.state.user;
-	            xhr.put("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + i.id + "&access_token=" + user.access_token, i.shoes).then(function (response) {
-	                console.log(response);
+	            var c = new _cookie2.default();
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+	            xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?access_token=" + c.getCookie('access_token'), i.shoes).then(function (response) {
 	                _this12.menuHandle(2);
 	            }, function (error) {
 	                console.log(error);
 	            });
 	        }
 	    }, {
-	        key: "deleteProduct",
-	        value: function deleteProduct(i) {
+	        key: "updateProduct",
+	        value: function updateProduct(i) {
 	            var _this13 = this;
 
 	            var xhr = new _xhr2.default({
@@ -22228,12 +22286,40 @@
 	                    Accept: "application/json"
 	                }
 	            });
-	            var user = this.state.user;
-	            xhr.delete("http://localhost:8080/PeopleShoesRest_war/shoes?id=" + i + "&access_token=" + user.access_token).then(function (response) {
-	                console.log(response);
+	            var c = new _cookie2.default();
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+	            xhr.put("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id=" + i.id + "&access_token=" + c.getCookie('access_token'), i.shoes).then(function (response) {
 	                _this13.menuHandle(2);
 	            }, function (error) {
 	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "deleteProduct",
+	        value: function deleteProduct(i) {
+	            var _this14 = this;
+
+	            var xhr = new _xhr2.default({
+	                json: true,
+	                contentType: "application/json",
+	                headers: {
+	                    Accept: "application/json"
+	                }
+	            });
+	            var c = new _cookie2.default();
+	            c.getCookie('access_token') == undefined ? this.refreshToken() : '';
+	            xhr.delete("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id=" + i + "&access_token=" + c.getCookie('access_token')).then(function (response) {
+	                console.log(response);
+	                _this14.menuHandle(2);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "slots",
+	        value: function slots(n) {
+	            this.setState({
+	                size: n
 	            });
 	        }
 	    }, {
@@ -22261,7 +22347,7 @@
 	                        _react2.default.createElement(_Menu2.default, { nameCat: this.state.data.nameCat, categories: this.state.categories, lang: this.state.data.lang, onHandle: this.requestGetList.bind(this), onHandle2: this.requestGet.bind(this) }),
 	                        _react2.default.createElement(_Catalog2.default, { data: this.state.data, filterPrice: this.filterPrice.bind(this), filterSize: this.filterSize.bind(this), filterColor: this.filterColor.bind(this) })
 	                    ),
-	                    _react2.default.createElement(_Goods2.default, { createProduct: this.createProduct.bind(this), updateProduct: this.updateProduct.bind(this), deleteProduct: this.deleteProduct.bind(this), context: this.state.main, lang: this.state.data.lang, money: this.state.money, onHandle2: this.requestGet.bind(this), details: this.details.bind(this), addProductCart: this.addProductCart.bind(this), removeProductCart: this.removeProductCart.bind(this), user: this.state.user, profileVisibl: this.profileVisibl.bind(this) })
+	                    _react2.default.createElement(_Goods2.default, { n: this.state.nPage, slots: this.slots.bind(this), shoesPage: this.shoesPage.bind(this), createProduct: this.createProduct.bind(this), updateProduct: this.updateProduct.bind(this), deleteProduct: this.deleteProduct.bind(this), context: this.state.main, lang: this.state.data.lang, money: this.state.money, onHandle2: this.requestGet.bind(this), details: this.details.bind(this), addProductCart: this.addProductCart.bind(this), removeProductCart: this.removeProductCart.bind(this), user: this.state.user, profileVisibl: this.profileVisibl.bind(this) })
 	                ),
 	                _react2.default.createElement(
 	                    _Footer2.default,
@@ -23735,9 +23821,13 @@
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _xhr = __webpack_require__(194);
+	var _xhr = __webpack_require__(195);
 
 	var _xhr2 = _interopRequireDefault(_xhr);
+
+	var _cookie = __webpack_require__(194);
+
+	var _cookie2 = _interopRequireDefault(_cookie);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23757,15 +23847,15 @@
 
 	        _this.state = {
 	            position: 0,
-	            number: 0,
-	            n: 1,
-	            slots: 6,
 	            sort: 0,
 	            focusInput: 0,
 	            materialList: [],
 	            colorList: [],
 	            collectionList: [],
 	            sizeList: [],
+	            sizeElement: [0],
+	            colorElement: [0],
+	            collectionElement: [0],
 	            brandList: [],
 	            create: {
 	                i: 0,
@@ -23836,20 +23926,14 @@
 	    }, {
 	        key: "number",
 	        value: function number(index) {
-	            var number = this.state.number;
-	            var n = this.state.n;
-	            index == 1 ? (number = number + this.state.slots, n = n + 1) : (number = number - this.state.slots, n = n - 1);
-	            this.setState({
-	                number: number,
-	                n: n
-	            });
+	            var n = this.props.n;
+	            index == 1 ? n = n + 1 : n = n - 1;
+	            this.props.shoesPage(n);
 	        }
 	    }, {
 	        key: "slots",
 	        value: function slots(n) {
-	            this.setState({
-	                slots: n
-	            });
+	            this.props.slots(n);
 	        }
 	    }, {
 	        key: "sortHandler",
@@ -23871,20 +23955,47 @@
 	    }, {
 	        key: "save",
 	        value: function save(i) {
+	            var _this3 = this;
+
 	            var price = document.getElementById('priceProps').value;
 	            price == null ? price = this.props.context.context.price.priceEu : price = parseInt(document.getElementById('priceProps').value);
 
 	            var amount = document.getElementById('amountProps').value;
 	            amount == null ? amount = this.props.context.context.amount : amount = parseInt(document.getElementById('amountProps').value);
 
-	            var image = document.getElementById('imageProps').value;
-	            image == null ? image = this.props.context.context.image : '';
+	            var image = void 0;
+	            var sizeList = [];
+	            var colorList = [];
+	            var collectionList = [];
+	            if (i == 1) {
+	                image = this.props.context.context.image;
+
+	                this.props.context.context.sizes.map(function (item, index) {
+	                    sizeList.push(document.getElementById('sizeSelect' + index).value);
+	                });
+	                this.props.context.context.colorList.map(function (item, index) {
+	                    colorList.push(document.getElementById('colorSelect' + index).value);
+	                });
+	                this.props.context.context.menCollections.map(function (item, index) {
+	                    collectionList.push(document.getElementById('collectionSelect' + index).value);
+	                });
+	            } else {
+	                image = document.getElementById('imageProps').value;
+	                image == null ? image = this.props.context.context.image : '';
+
+	                this.state.sizeElement.map(function (item, index) {
+	                    index == _this3.state.sizeElement.length - 1 ? '' : sizeList.push(document.getElementById('sizeSelect' + index).value);
+	                });
+	                this.state.colorElement.map(function (item, index) {
+	                    index == _this3.state.colorElement.length - 1 ? '' : colorList.push(document.getElementById('colorSelect' + index).value);
+	                });
+	                this.state.collectionElement.map(function (item, index) {
+	                    index == _this3.state.collectionElement.length - 1 ? '' : collectionList.push(document.getElementById('collectionSelect' + index).value);
+	                });
+	            }
 
 	            var prod = {
 	                id: this.props.context.context.id,
-	                color: document.getElementById('colorSelect').value,
-	                collection: document.getElementById('collectionSelect').value,
-	                size: document.getElementById('sizeSelect').value,
 	                shoes: {
 	                    nameEu: document.getElementById('nameProps').value,
 	                    nameRu: document.getElementById('nameProps').value,
@@ -23896,13 +24007,24 @@
 	                    },
 	                    idBrand: document.getElementById('brandSelect').value,
 	                    idMaterial: document.getElementById('materialSelect').value,
-	                    image: image
+	                    image: image,
+	                    colorListId: colorList,
+	                    sizesId: sizeList,
+	                    menCollectionsId: collectionList
 	                }
 	            };
 	            if (i == 1) {
 	                this.props.updateProduct(prod);
 	            } else {
 	                this.props.createProduct(prod);
+	                this.setState({
+	                    create: {
+	                        i: 0, shoes: {}
+	                    },
+	                    sizeElement: [0],
+	                    colorElement: [0],
+	                    collectionElement: [0]
+	                });
 	            }
 	        }
 	    }, {
@@ -23926,11 +24048,11 @@
 	    }, {
 	        key: "getMaterialList",
 	        value: function getMaterialList() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/material").then(function (response) {
-	                _this3.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/material").then(function (response) {
+	                _this4.setState({
 	                    materialList: response
 	                });
 	            }, function (error) {
@@ -23940,11 +24062,11 @@
 	    }, {
 	        key: "getColorList",
 	        value: function getColorList() {
-	            var _this4 = this;
+	            var _this5 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/color").then(function (response) {
-	                _this4.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/color").then(function (response) {
+	                _this5.setState({
 	                    colorList: response
 	                });
 	            }, function (error) {
@@ -23954,11 +24076,11 @@
 	    }, {
 	        key: "getCollectionList",
 	        value: function getCollectionList() {
-	            var _this5 = this;
+	            var _this6 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/menCollection").then(function (response) {
-	                _this5.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/menCollection").then(function (response) {
+	                _this6.setState({
 	                    collectionList: response
 	                });
 	            }, function (error) {
@@ -23968,11 +24090,11 @@
 	    }, {
 	        key: "getSizeList",
 	        value: function getSizeList() {
-	            var _this6 = this;
+	            var _this7 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/size").then(function (response) {
-	                _this6.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/size").then(function (response) {
+	                _this7.setState({
 	                    sizeList: response
 	                });
 	            }, function (error) {
@@ -23982,11 +24104,11 @@
 	    }, {
 	        key: "getBrandList",
 	        value: function getBrandList() {
-	            var _this7 = this;
+	            var _this8 = this;
 
 	            var xhr = new _xhr2.default({ json: true });
-	            xhr.get("http://localhost:8080/PeopleShoesRest_war/brand").then(function (response) {
-	                _this7.setState({
+	            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/brand").then(function (response) {
+	                _this8.setState({
 	                    brandList: response
 	                });
 	            }, function (error) {
@@ -23995,13 +24117,38 @@
 	        }
 	    }, {
 	        key: "onClickBind",
-	        value: function onClickBind(id, i) {
+	        value: function onClickBind(index, id, i) {
+
 	            document.getElementById(id).value = i;
+
+	            if (index == -1) {} else {
+	                if (id == "sizeSelect" + index) {
+	                    var sizeElement = this.state.sizeElement;
+	                    sizeElement.push(0);
+	                    this.setState({
+	                        sizeElement: sizeElement
+	                    });
+	                }
+	                if (id == "colorSelect" + index) {
+	                    var colorElement = this.state.colorElement;
+	                    colorElement.push(0);
+	                    this.setState({
+	                        colorElement: colorElement
+	                    });
+	                }
+	                if (id == "collectionSelect" + index) {
+	                    var collectionElement = this.state.collectionElement;
+	                    collectionElement.push(0);
+	                    this.setState({
+	                        collectionElement: collectionElement
+	                    });
+	                }
+	            }
 	        }
 	    }, {
 	        key: "createSlot",
 	        value: function createSlot() {
-	            var _this8 = this;
+	            var _this9 = this;
 
 	            var styleInput = { visibility: "visible", height: '20px', marginBottom: '10px' };
 	            var lang = this.props.lang;
@@ -24027,7 +24174,7 @@
 	                            this.state.brandList.map(function (item) {
 	                                return _react2.default.createElement(
 	                                    "option",
-	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'brandSelect', item.id) },
+	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'brandSelect', item.id) },
 	                                    item.name
 	                                );
 	                            })
@@ -24044,19 +24191,21 @@
 	                        null,
 	                        " ",
 	                        lang == "English" ? 'Color : ' : "Цвета : ",
-	                        _react2.default.createElement(
-	                            "select",
-	                            { id: "colorSelect" },
-	                            this.state.colorList.map(function (item) {
-	                                return _react2.default.createElement(
-	                                    "option",
-	                                    { value: item.id,
-	                                        onClick: _this8.onClickBind.bind(_this8, 'colorSelect', item.id) },
-	                                    " ",
-	                                    lang == "English" ? item.nameEu : item.nameRu
-	                                );
-	                            })
-	                        )
+	                        this.state.colorElement.map(function (item, index) {
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "colorSelect" + index },
+	                                _this9.state.colorList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id,
+	                                            onClick: _this9.onClickBind.bind(_this9, index, "colorSelect" + index, item.id) },
+	                                        " ",
+	                                        lang == "English" ? item.nameEu : item.nameRu
+	                                    );
+	                                })
+	                            );
+	                        })
 	                    ),
 	                    _react2.default.createElement(
 	                        "h2",
@@ -24068,7 +24217,7 @@
 	                            this.state.materialList.map(function (item) {
 	                                return _react2.default.createElement(
 	                                    "option",
-	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'materialSelect', item.id) },
+	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'materialSelect', item.id) },
 	                                    lang == "English" ? item.nameEu : item.nameRu
 	                                );
 	                            })
@@ -24090,51 +24239,81 @@
 	                        "h2",
 	                        null,
 	                        lang == "English" ? 'Collection : ' : 'Коллекции: ',
-	                        _react2.default.createElement(
-	                            "select",
-	                            { id: "collectionSelect" },
-	                            this.state.collectionList.map(function (item) {
-	                                return _react2.default.createElement(
-	                                    "option",
-	                                    { value: item.id, onClick: _this8.onClickBind.bind(_this8, 'collectionSelect', item.id) },
-	                                    lang == "English" ? item.collectionNameEu : item.collectionNameRu
-	                                );
-	                            })
-	                        )
+	                        this.state.collectionElement.map(function (item, index) {
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "collectionSelect" + index },
+	                                _this9.state.collectionList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id,
+	                                            onClick: _this9.onClickBind.bind(_this9, index, "collectionSelect" + index, item.id) },
+	                                        lang == "English" ? item.collectionNameEu : item.collectionNameRu
+	                                    );
+	                                })
+	                            );
+	                        })
 	                    ),
 	                    _react2.default.createElement(
 	                        "h2",
-	                        null,
+	                        { id: "size" },
 	                        lang == "English" ? 'Size : ' : 'Размеры: ',
-	                        _react2.default.createElement(
-	                            "select",
-	                            { id: "sizeSelect" },
-	                            this.state.sizeList.map(function (item) {
-	                                return _react2.default.createElement(
-	                                    "option",
-	                                    { value: item.id,
-	                                        onClick: _this8.onClickBind.bind(_this8, 'sizeSelect', item.id) },
-	                                    item.sizeEU
-	                                );
-	                            })
-	                        )
+	                        this.state.sizeElement.map(function (item, index) {
+	                            return _react2.default.createElement(
+	                                "select",
+	                                { id: "sizeSelect" + index },
+	                                _this9.state.sizeList.map(function (item) {
+	                                    return _react2.default.createElement(
+	                                        "option",
+	                                        { value: item.id,
+	                                            onClick: _this9.onClickBind.bind(_this9, index, "sizeSelect" + index, item.id) },
+	                                        item.sizeEU
+	                                    );
+	                                })
+	                            );
+	                        })
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
-	                        { className: "addProduct" },
+	                        { style: { display: "inline-flex" } },
 	                        _react2.default.createElement(
-	                            "button",
-	                            { onClick: this.save.bind(this, 2) },
-	                            lang == "English" ? 'Create' : 'Создать'
+	                            "div",
+	                            { className: "addProduct" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { onClick: this.save.bind(this, 2) },
+	                                lang == "English" ? 'Create' : 'Создать'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "addProduct" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { onClick: this.back.bind(this) },
+	                                lang == "English" ? 'Back' : 'Назад'
+	                            )
 	                        )
 	                    )
 	                )
 	            );
 	        }
 	    }, {
+	        key: "back",
+	        value: function back() {
+	            this.setState({
+	                create: {
+	                    i: 0, shoes: {}
+	                },
+	                sizeElement: [0],
+	                colorElement: [0],
+	                collectionElement: [0]
+	            });
+	        }
+	    }, {
 	        key: "slot",
 	        value: function slot() {
-	            var _this9 = this;
+	            var _this10 = this;
 
 	            var context = this.props.context.context;
 	            var styleInput = void 0;
@@ -24143,7 +24322,8 @@
 	            var money = this.props.money;
 	            var price = void 0;
 	            money == 0 ? price = context.price.priceEu + " $" : price = context.price.priceRu + " ₽";
-	            var role = this.props.user.role;
+	            var c = new _cookie2.default();
+	            var role = c.getCookie('role');
 	            var flag = true;
 	            var removeIndex = void 0;
 	            this.props.user.product.map(function (item, index) {
@@ -24285,7 +24465,7 @@
 	                            this.state.brandList.map(function (item) {
 	                                return _react2.default.createElement(
 	                                    "option",
-	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'brandSelect', item.id) },
+	                                    { value: item.id, onClick: _this10.onClickBind.bind(_this10, 'brandSelect', item.id) },
 	                                    item.name
 	                                );
 	                            })
@@ -24302,15 +24482,15 @@
 	                        null,
 	                        " ",
 	                        lang == "English" ? 'Color : ' : "Цвета : ",
-	                        context.colorList.map(function (item) {
+	                        context.colorList.map(function (item, index) {
 	                            return _react2.default.createElement(
 	                                "select",
-	                                { id: "colorSelect", defaultValue: item.id },
-	                                _this9.state.colorList.map(function (item) {
+	                                { id: "colorSelect" + index, defaultValue: item.id },
+	                                _this10.state.colorList.map(function (item) {
 	                                    return _react2.default.createElement(
 	                                        "option",
 	                                        { value: item.id,
-	                                            onClick: _this9.onClickBind.bind(_this9, 'colorSelect', item.id) },
+	                                            onClick: _this10.onClickBind.bind(_this10, -1, 'colorSelect' + index, item.id) },
 	                                        " ",
 	                                        lang == "English" ? item.nameEu : item.nameRu
 	                                    );
@@ -24328,7 +24508,7 @@
 	                            this.state.materialList.map(function (item) {
 	                                return _react2.default.createElement(
 	                                    "option",
-	                                    { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'materialSelect', item.id) },
+	                                    { value: item.id, onClick: _this10.onClickBind.bind(_this10, 'materialSelect', item.id) },
 	                                    lang == "English" ? item.nameEu : item.nameRu
 	                                );
 	                            })
@@ -24344,15 +24524,15 @@
 	                        "h2",
 	                        null,
 	                        lang == "English" ? 'Collection : ' : 'Коллекции: ',
-	                        context.menCollections.map(function (item) {
+	                        context.menCollections.map(function (item, index) {
 
 	                            return _react2.default.createElement(
 	                                "select",
-	                                { id: "collectionSelect", defaultValue: item.id },
-	                                _this9.state.collectionList.map(function (item) {
+	                                { id: "collectionSelect" + index, defaultValue: item.id },
+	                                _this10.state.collectionList.map(function (item) {
 	                                    return _react2.default.createElement(
 	                                        "option",
-	                                        { value: item.id, onClick: _this9.onClickBind.bind(_this9, 'collectionSelect', item.id) },
+	                                        { value: item.id, onClick: _this10.onClickBind.bind(_this10, -1, 'collectionSelect' + index, item.id) },
 	                                        lang == "English" ? item.collectionNameEu : item.collectionNameRu
 	                                    );
 	                                })
@@ -24363,15 +24543,15 @@
 	                        "h2",
 	                        null,
 	                        lang == "English" ? 'Size : ' : 'Размеры: ',
-	                        context.sizes.map(function (item) {
+	                        context.sizes.map(function (item, index) {
 	                            return _react2.default.createElement(
 	                                "select",
-	                                { id: "sizeSelect", defaultValue: item.id },
-	                                _this9.state.sizeList.map(function (item) {
+	                                { id: "sizeSelect" + index, defaultValue: item.id },
+	                                _this10.state.sizeList.map(function (item) {
 	                                    return _react2.default.createElement(
 	                                        "option",
 	                                        { value: item.id,
-	                                            onClick: _this9.onClickBind.bind(_this9, 'sizeSelect', item.id) },
+	                                            onClick: _this10.onClickBind.bind(_this10, -1, 'sizeSelect' + index, item.id) },
 	                                        item.sizeEU
 	                                    );
 	                                })
@@ -24410,8 +24590,7 @@
 	        key: "shoes",
 	        value: function shoes() {
 	            var context = this.props.context;
-	            var kolPage = Math.ceil(context.context.length / this.state.slots);
-	            var arr = context.context.slice(this.state.number, this.state.number + this.state.slots);
+	            var arr = context.context;
 	            var sort = this.state.sort;
 	            if (sort == 0) {} else if (sort == 1) {
 	                arr.sort(function (a, b) {
@@ -24441,7 +24620,7 @@
 	            return _react2.default.createElement(
 	                "div",
 	                { className: "goods" },
-	                _react2.default.createElement(_Panel2.default, { role: this.props.user.role, create: this.create.bind(this), sortHandler: this.sortHandler.bind(this), sort: this.state.sort, ks: this.state.slots, slots: this.slots.bind(this), position: this.state.position, n: this.state.n, kol: kolPage, onHandle: this.position.bind(this), number: this.number.bind(this) }),
+	                _react2.default.createElement(_Panel2.default, { create: this.create.bind(this), sortHandler: this.sortHandler.bind(this), sort: this.state.sort, slots: this.slots.bind(this), position: this.state.position, n: this.props.n, onHandle: this.position.bind(this), number: this.number.bind(this) }),
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "slots" },
@@ -24491,7 +24670,7 @@
 	    }, {
 	        key: "brand",
 	        value: function brand() {
-	            var _this10 = this;
+	            var _this11 = this;
 
 	            var context = this.props.context;
 	            var lang = this.props.lang;
@@ -24501,7 +24680,7 @@
 	                context.context.map(function (item) {
 	                    return _react2.default.createElement(
 	                        "div",
-	                        { className: "brand", onClick: _this10.clickedLi.bind(_this10, 1, item.id) },
+	                        { className: "brand", onClick: _this11.clickedLi.bind(_this11, 1, item.id) },
 	                        _react2.default.createElement("img", { src: item.logo }),
 	                        _react2.default.createElement(
 	                            "h2",
@@ -24554,6 +24733,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _cookie = __webpack_require__(194);
+
+	var _cookie2 = _interopRequireDefault(_cookie);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24572,8 +24755,7 @@
 
 	        _this.state = {
 	            position: props.position,
-	            number: props.n,
-	            slots: props.ks,
+	            slots: 6,
 	            sort: props.sort
 	        };
 	        return _this;
@@ -24590,36 +24772,7 @@
 	    }, {
 	        key: "number",
 	        value: function number(index) {
-
-	            var n = this.state.number;
-	            if (n == 1) {
-	                if (index == 1) {
-	                    n = n + 1;
-	                    this.setState({
-	                        number: n
-	                    });
-	                    this.props.number(index);
-	                }
-	            } else if (n == this.props.kol) {
-	                if (index == -1) {
-	                    n = n - 1;
-	                    this.setState({
-	                        number: n
-	                    });
-	                    this.props.number(index);
-	                }
-	            } else {
-	                index == 1 ? n = n + 1 : n = n - 1;
-	                this.setState({
-	                    number: n
-	                });
-	                this.props.number(index);
-	            }
-	        }
-	    }, {
-	        key: "nPage",
-	        value: function nPage(n) {
-	            this.number(n - this.state.number);
+	            this.props.number(index);
 	        }
 	    }, {
 	        key: "slots",
@@ -24645,11 +24798,10 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this2 = this;
-
 	            var classLarge = void 0;
 	            var classList = void 0;
-	            var numbers = [this.state.number - 1, this.state.number, this.state.number + 1];
+	            var c = new _cookie2.default();
+	            var role = c.getCookie('role');
 	            this.state.position == 0 ? (classLarge = "grid", classList = "list") : (classLarge = "list", classList = "grid");
 	            return _react2.default.createElement(
 	                "div",
@@ -24752,7 +24904,7 @@
 	                        )
 	                    )
 	                ),
-	                this.props.role == "ROLE_ADMIN" ? _react2.default.createElement(
+	                role == "ROLE_ADMIN" ? _react2.default.createElement(
 	                    "div",
 	                    { className: "createProduct" },
 	                    _react2.default.createElement(
@@ -24776,22 +24928,15 @@
 	                                _react2.default.createElement("i", { className: "fa fa-angle-left" })
 	                            )
 	                        ),
-	                        numbers.map(function (item, index) {
-	                            var c = void 0;
-	                            var click = void 0;
-	                            index == 1 ? (c = 'focus', click = "") : (c = 'number', click = _this2.nPage.bind(_this2, item));
-	                            if (item > 0 && item <= _this2.props.kol) {
-	                                return _react2.default.createElement(
-	                                    "li",
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        "a",
-	                                        { className: c, onClick: click },
-	                                        item
-	                                    )
-	                                );
-	                            }
-	                        }),
+	                        _react2.default.createElement(
+	                            "li",
+	                            null,
+	                            _react2.default.createElement(
+	                                "a",
+	                                { className: "focus" },
+	                                this.props.n + 1
+	                            )
+	                        ),
 	                        _react2.default.createElement(
 	                            "li",
 	                            null,
@@ -24814,6 +24959,75 @@
 
 /***/ },
 /* 194 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Cookie = function () {
+	    function Cookie() {
+	        _classCallCheck(this, Cookie);
+	    }
+
+	    _createClass(Cookie, [{
+	        key: "deleteCookie",
+	        value: function deleteCookie(name) {
+	            this.setCookie(name, "", {
+	                expires: -1
+	            });
+	        }
+	    }, {
+	        key: "setCookie",
+	        value: function setCookie(name, value, options) {
+	            options = options || {};
+
+	            var expires = options.expires;
+
+	            if (typeof expires == "number" && expires) {
+	                var d = new Date();
+	                d.setTime(d.getTime() + expires * 1000);
+	                expires = options.expires = d;
+	            }
+	            if (expires && expires.toUTCString) {
+	                options.expires = expires.toUTCString();
+	            }
+
+	            value = encodeURIComponent(value);
+
+	            var updatedCookie = name + "=" + value;
+
+	            for (var propName in options) {
+	                updatedCookie += "; " + propName;
+	                var propValue = options[propName];
+	                if (propValue !== true) {
+	                    updatedCookie += "=" + propValue;
+	                }
+	            }
+
+	            document.cookie = updatedCookie;
+	        }
+	    }, {
+	        key: "getCookie",
+	        value: function getCookie(name) {
+	            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+	            return matches ? decodeURIComponent(matches[1]) : undefined;
+	        }
+	    }]);
+
+	    return Cookie;
+	}();
+
+	exports.default = Cookie;
+
+/***/ },
+/* 195 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24940,7 +25154,7 @@
 	exports.default = Xhr;
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25133,7 +25347,7 @@
 	exports.default = Popup;
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

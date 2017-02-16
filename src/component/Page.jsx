@@ -15,20 +15,20 @@ import Goods from "./Goods"
 import Popup from "./PopupAuthoriz"
 import Cart from "./PopupCart"
 import Xhr from "./xhr"
+import Cookie from "./cookie"
 
 export default class Page extends React.Component {
 
     constructor(){
         super();
         this.state = {
+            nPage: 0,
+            size: 6,
             popup: 0,
             popup2: 0,
             user: {
                 login: '',
                 password: '',
-                role : '',
-                access_token: '',
-                refresh_token: '',
                 product: [ ]
             },
             errorMessage: '',
@@ -226,11 +226,36 @@ export default class Page extends React.Component {
 
     }
 
+    shoesPage(p){
+        var xhr = new Xhr({json: true});
+        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?page="+p+"&size="+this.state.size).then((response) => {
+           if(response==''){}
+           else {
+               let c = this.state.menu;
+               c[2].context = response;
+               this.setState({
+                   nPage: p,
+                   main: {
+                       name: c[2].name,
+                       context: c[2].context
+                   },
+                   menu: c,
+                   index: 2,
+                   details: ''
+               });
+           }
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
     menuHandle(index){
-        if(index>0) {
+        if(index==2){
+            this.shoesPage(this.state.nPage);
+        }else if(index>0) {
             let uri = this.state.menu[index].uri;
             var xhr = new Xhr({json: true});
-            xhr.get("http://localhost:8080/PeopleShoesRest_war/" + uri).then((response) => {
+            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/" + uri).then((response) => {
                 let c = this.state.menu;
                 c[index].context = response;
                 this.setState({
@@ -245,7 +270,8 @@ export default class Page extends React.Component {
             }, (error) => {
                 console.log(error);
             });
-        }else{
+        }
+        else{
             this.setState({
                 main: {
                     name: this.state.menu[index].name,
@@ -265,7 +291,7 @@ export default class Page extends React.Component {
 
     requestFilter(uri){
         var xhr = new Xhr({json: true});
-        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri).then((response) => {
+        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/"+uri).then((response) => {
             let r;
             if(response.shoesList==null) {
                 r=response;
@@ -301,7 +327,7 @@ export default class Page extends React.Component {
     }
 
     filterColor(color){
-        this.requestFilter("getColor?id="+color);
+        this.requestFilter("color?id="+color);
         this.setState({
             details: 'Color Filter'
         })
@@ -311,7 +337,7 @@ export default class Page extends React.Component {
     requestGetList(index){
         let uri = this.state.categories[index].uri;
         var xhr = new Xhr({json:true});
-        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri).then((response)=> {
+        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/"+uri).then((response)=> {
             let c = this.state.categories;
             c[index].li= response;
             c[index].focused=1;
@@ -326,7 +352,7 @@ export default class Page extends React.Component {
     requestGet(index,id){
         let uri = this.state.categories[index].uri;
         var xhr = new Xhr({json:true});
-        xhr.get("http://localhost:8080/PeopleShoesRest_war/"+uri+"?id="+id).then((response)=> {
+        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/"+uri+"?id="+id).then((response)=> {
             let c = this.state.menu;
             c[2].context = response.shoesList;
             let name;
@@ -349,7 +375,7 @@ export default class Page extends React.Component {
 
     details(id){
         var xhr = new Xhr({json:true});
-        xhr.get("http://localhost:8080/PeopleShoesRest_war/shoes?id="+id).then((response)=> {
+        xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id="+id).then((response)=> {
             this.setState({
                 main: {
                     name: 'details',
@@ -386,6 +412,26 @@ export default class Page extends React.Component {
         })
     }
 
+    refreshToken(){
+        var c = new Cookie();
+        if(c.getCookie('refresh_token')==undefined){
+            this.exit()}else {
+            var xhr = new Xhr({
+                json: true,
+                contentType: "application/json",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: 'Basic '+btoa("client:secret")}
+            });
+            xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/oauth/token?grant_type=refresh_token&refresh_token="+c.getCookie('refresh_token'),null).then((response)=> {
+                var option={expires:1200};
+                c.setCookie('access_token',response.access_token,option);
+            },(error)=>{
+                console.log(error);
+            });
+        }
+    }
+
     logIn(log,pass){
         var xhr = new Xhr({
             json: true,
@@ -394,42 +440,60 @@ export default class Page extends React.Component {
                 Accept: "application/json",
                 Authorization: 'Basic '+btoa("client:secret")}
         });
-        xhr.post("http://localhost:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username="+log+"&password="+pass,null).then((response)=> {
-            let access_token = response.access_token;
-            let refresh_token= response.refresh_token;
+        xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/oauth/token?grant_type=password&username="+log+"&password="+pass,null).then((response)=> {
+            var c = new Cookie();
+            var option={expires:1200};
+            var access_token = response.access_token;
+            var refresh_token = response.refresh_token;
+            c.setCookie('access_token',access_token,option);
+            option={expires:6000};
+            c.setCookie('refresh_token',refresh_token,option);
+
+
             var xhr = new Xhr({
                 json: false,
                 contentType: "application/json"
             });
-            xhr.get("http://localhost:8080/PeopleShoesRest_war/role?access_token="+access_token).then((response)=> {
+            xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/role?access_token="+access_token).then((response)=> {
                 let role = response;
+                c.setCookie('role',role,option);
+
                 var xhr = new Xhr({
                     json: true,
                     contentType: "application/json"
                 });
-                 xhr.get("http://localhost:8080/PeopleShoesRest_war/cart?access_token="+access_token).then((response)=> {
-                     let product = [];
-                     response.map((item)=>{
-                         product.push(item.shoes);
-                     });
-                     this.setState({
-                         user: {
-                             login :  log,
-                             password : pass,
-                             role : role,
-                             access_token: access_token,
-                             refresh_token: refresh_token,
-                             product: product
-                         },
-                         popup :0,
-                         errorMessage: ''
-                     })
-                 },(error)=> {
-                     console.log(error);
-                     this.setState({
-                         errorMessage: error
-                     })
-                 });
+                if(role=='ROLE_USER') {
+                    xhr.get("http://192.168.100.5:8080/PeopleShoesRest_war/cart?access_token=" + access_token).then((response) => {
+                        let product = [];
+                        response.map((item) => {
+                            product.push(item.shoes);
+                        });
+                        this.setState({
+                            user: {
+                                login: log,
+                                password: pass,
+                                product: product
+                            },
+                            popup: 0,
+                            errorMessage: ''
+                        })
+                    }, (error) => {
+                        console.log(error);
+                        this.setState({
+                            errorMessage: error
+                        })
+                    });
+                }else{
+                    this.setState({
+                        user: {
+                            login: log,
+                            password: pass,
+                            product: []
+                        },
+                        popup: 0,
+                        errorMessage: ''
+                    })
+                }
             },(error)=> {
                 console.log(error);
                 this.setState({
@@ -452,7 +516,7 @@ export default class Page extends React.Component {
             }
         });
         let body = { username: log, password: pass};
-        xhr.post("http://localhost:8080/PeopleShoesRest_war/users",body).then((response)=> {
+        xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/users",body).then((response)=> {
                this.logIn(log,pass);
         },(error)=>{
             console.log(error);
@@ -461,14 +525,16 @@ export default class Page extends React.Component {
             });
         });
     }
+
     exit(){
+        var c = new Cookie();
+        c.deleteCookie('access_token');
+        c.deleteCookie('refresh_token');
+        c.deleteCookie('role');
         this.setState({
             user: {
                 login :  '',
                 password : '',
-                role : '',
-                access_token: '',
-                refresh_token: '',
                 product: []
             },
             popup :0
@@ -485,7 +551,13 @@ export default class Page extends React.Component {
         });
         let user = this.state.user;
         let body = { username: user.login, idShoes: item.id};
-        xhr.post("http://localhost:8080/PeopleShoesRest_war/cart?access_token="+user.access_token,body).then((response)=> {
+        var c = new Cookie();
+
+
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+
+
+        xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/cart?access_token="+c.getCookie('access_token'),body).then((response)=> {
             user.product.push(item);
             this.setState({
                 user: user
@@ -504,7 +576,9 @@ export default class Page extends React.Component {
             }
         });
         let user = this.state.user;
-        xhr.delete("http://localhost:8080/PeopleShoesRest_war/cart?id="+id+"&access_token="+user.access_token).then((response)=> {
+        var c = new Cookie();
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+        xhr.delete("http://192.168.100.5:8080/PeopleShoesRest_war/cart?id="+id+"&access_token="+c.getCookie('access_token')).then((response)=> {
             for(let i=0;i< user.product.length;i++) {
                user.product[i].id == id ? (
                     i==0 ?  user.product.shift() : user.product.pop() ?
@@ -528,7 +602,9 @@ export default class Page extends React.Component {
         });
         let user = this.state.user;
         let body = { username: user.login, password : newPass, enabled: 1 };
-        xhr.put("http://localhost:8080/PeopleShoesRest_war/users?access_token="+user.access_token,body).then((response)=> {
+        var c = new Cookie();
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+        xhr.put("http://192.168.100.5:8080/PeopleShoesRest_war/users?access_token="+c.getCookie('access_token'),body).then((response)=> {
             console.log(response);
         },(error)=>{
             console.log(error);
@@ -543,9 +619,9 @@ export default class Page extends React.Component {
                 Accept: "application/json"
             }
         });
-        let user = this.state.user;
-        xhr.post("http://localhost:8080/PeopleShoesRest_war/shoes?access_token="+user.access_token,i.shoes).then((response)=> {
-            console.log(response);
+        var c = new Cookie();
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+        xhr.post("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?access_token="+c.getCookie('access_token'),i.shoes).then((response)=> {
             this.menuHandle(2);
         },(error)=>{
             console.log(error);
@@ -559,9 +635,9 @@ export default class Page extends React.Component {
                 Accept: "application/json"
             }
         });
-        let user = this.state.user;
-        xhr.put("http://localhost:8080/PeopleShoesRest_war/shoes?id="+i.id+"&access_token="+user.access_token,i.shoes).then((response)=> {
-            console.log(response);
+        var c = new Cookie();
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+        xhr.put("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id="+i.id+"&access_token="+ c.getCookie('access_token'),i.shoes).then((response)=> {
             this.menuHandle(2);
         },(error)=>{
             console.log(error);
@@ -576,13 +652,20 @@ export default class Page extends React.Component {
                 Accept: "application/json"
             }
         });
-        let user = this.state.user;
-        xhr.delete("http://localhost:8080/PeopleShoesRest_war/shoes?id="+i+"&access_token="+user.access_token).then((response)=> {
+        var c = new Cookie();
+        c.getCookie('access_token')==undefined ? this.refreshToken() : '';
+        xhr.delete("http://192.168.100.5:8080/PeopleShoesRest_war/shoes?id="+i+"&access_token="+c.getCookie('access_token')).then((response)=> {
             console.log(response);
             this.menuHandle(2);
         },(error)=>{
             console.log(error);
         });
+    }
+
+    slots(n){
+        this.setState({
+            size:n
+        })
     }
 
     render() {
@@ -600,7 +683,7 @@ export default class Page extends React.Component {
                     <Menu nameCat={this.state.data.nameCat} categories={this.state.categories} lang={this.state.data.lang} onHandle={this.requestGetList.bind(this)} onHandle2={this.requestGet.bind(this)}/>
                     <Catalog data={this.state.data} filterPrice={this.filterPrice.bind(this)} filterSize={this.filterSize.bind(this)} filterColor={this.filterColor.bind(this)}/>
                 </Categories>
-                <Goods createProduct = {this.createProduct.bind(this)} updateProduct = {this.updateProduct.bind(this)} deleteProduct={this.deleteProduct.bind(this)} context={this.state.main} lang={this.state.data.lang} money={this.state.money} onHandle2={this.requestGet.bind(this)} details={this.details.bind(this)} addProductCart={this.addProductCart.bind(this)} removeProductCart={this.removeProductCart.bind(this)} user={this.state.user} profileVisibl={this.profileVisibl.bind(this)}/>
+                <Goods n={this.state.nPage} slots={this.slots.bind(this)} shoesPage={this.shoesPage.bind(this)} createProduct = {this.createProduct.bind(this)} updateProduct = {this.updateProduct.bind(this)} deleteProduct={this.deleteProduct.bind(this)} context={this.state.main} lang={this.state.data.lang} money={this.state.money} onHandle2={this.requestGet.bind(this)} details={this.details.bind(this)} addProductCart={this.addProductCart.bind(this)} removeProductCart={this.removeProductCart.bind(this)} user={this.state.user} profileVisibl={this.profileVisibl.bind(this)}/>
             </Main>
             <Footer>
                 <Footertop data={this.state.data}/>
